@@ -1,0 +1,1 @@
+/usr/bin/c++    -g -std=c++11 -O2     CMakeFiles/rootserver.dir/tcpmessage.cpp.o CMakeFiles/rootserver.dir/server.cpp.o  -o ../../../bin/rootserver  -L/home/cjtech/gitdir/cjtech/lib -rdynamic -lboost_system -lboost_thread -Wl,-rpath,/home/cjtech/gitdir/cjtech/lib 

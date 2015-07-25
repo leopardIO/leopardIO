@@ -1,0 +1,3 @@
+/home/cjtech/gitdir/cjtech/build/bin/nodeserver/CMakeFiles/nodeserver.dir
+/home/cjtech/gitdir/cjtech/build/bin/rootserver/CMakeFiles/rootserver.dir
+/home/cjtech/gitdir/cjtech/build/bin/CMakeFiles/test.dir
