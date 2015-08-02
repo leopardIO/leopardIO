@@ -1,19 +1,19 @@
-#ifndef SESSION_H
-#define SESSION_H
+#ifndef ClientSession_H
+#define ClientSession_H
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
-#include "ClientMessage.h"
 
 using boost::asio::ip::tcp;  
 
 namespace cjtech{
-    namespace nodeserver{
-        class session
+    namespace RootServer{
+        class ClientMessage;
+        class ClientSession
         {
             public:
-                session(boost::asio::io_service& io_service);
-                virtual ~session();
+                ClientSession(boost::asio::io_service& io_service);
+                virtual ~ClientSession();
                 tcp::socket& socket();
                 void start();
                 void h_json_header_len(const boost::system::error_code& error);
@@ -23,7 +23,7 @@ namespace cjtech{
                 void query_db(/*  */);
                 void sent_result_back(/*  */);
             private:
-                TcpMessage* _msg_;
+                ClientMessage* _msg_;
                 tcp::socket _socket_;   
         };
     }

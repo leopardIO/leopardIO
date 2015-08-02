@@ -16,22 +16,19 @@
 
  ***********************************************/
 
-#include "protocol.h"
-#include "mymessage.h"
 #include <iostream>
 #include <cstring>
 #include <map>
 
 namespace cjtech
 {
-    namespace nodeserver
+    namespace RootServer
     {
 
-        class TcpMessage
+        class ClientMessage
         {
             public:
-                TcpMessage()
-                    : body_len_(0)
+                ClientMessage()
                 {
                     _json_body_len_ = 0;
                     _file_body_len_ = 0;
@@ -55,6 +52,10 @@ namespace cjtech
                 inline char* GetFileBodyLoc()
                 {
                     return _file_c_;
+                }
+                inline std::string GetJsonString()
+                {
+                    return _json_body_;
                 }
                 bool ParserJson();
                 bool ParserProtoBuf();

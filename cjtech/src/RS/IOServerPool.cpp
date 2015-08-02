@@ -9,7 +9,7 @@
 using namespace std;
 
 namespace cjtech{
-    namespace nodeserver{
+    namespace RootServer{
         IOServerPool::IOServerPool(size_t pool_size)
             : next_io_service_(0)
         { 
