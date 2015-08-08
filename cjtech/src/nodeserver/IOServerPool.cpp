@@ -4,12 +4,12 @@
   > Mail: zbzcsn@qq.com
   > Created Time: Sat 25 Jul 2015 06:24:03 PM UTC
  ************************************************************************/
-#include "ioserverpool.h"
+#include "IOServerPool.h"
 
 using namespace std;
 
 namespace cjtech{
-    namespace nodeserver{
+    namespace RootServer{
         IOServerPool::IOServerPool(size_t pool_size)
             : next_io_service_(0)
         { 
