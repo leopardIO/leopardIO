@@ -7,8 +7,8 @@ using boost::asio::ip::tcp;
 
 namespace cjtech{
     namespace RootServer{
-        RootServer::RootServer(short port, int thread_cnt)
-            : io_service_pool_(thread_cnt), 
+        RootServer::RootServer(short port, IOServerPool &io_ser_po)
+            : io_service_pool_(io_ser_po), 
             acceptor_(io_service_pool_.get_io_service(), tcp::endpoint(tcp::v4(), port))
         {
             ClientSession* new_session = new ClientSession(io_service_pool_.get_io_service());

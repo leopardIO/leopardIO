@@ -36,12 +36,12 @@ namespace cjtech{
         class RootServer
         {
             public:
-                RootServer(short port, int thread_cnt);
+                RootServer(short port, IOServerPool &io_ser_po);
                 void handle_accept(ClientSession* new_session, 
                         const boost::system::error_code& error);
                 void run();
             private:
-                IOServerPool io_service_pool_;
+                IOServerPool &io_service_pool_;
                 tcp::acceptor acceptor_;
         };
     }

@@ -3,13 +3,14 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
+#include "Session.h"
 
 using boost::asio::ip::tcp;  
 
 namespace cjtech{
     namespace RootServer{
         class ClientMessage;
-        class ClientSession
+        class ClientSession :public Session
         {
             public:
                 ClientSession(boost::asio::io_service& io_service);

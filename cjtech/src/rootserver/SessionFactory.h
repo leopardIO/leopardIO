@@ -5,6 +5,7 @@
 #include <list>
 
 #include <boost/thread/mutex.hpp>
+#include <boost/asio.hpp>
 #include "Singleton.h"
 
 class Session;
@@ -25,8 +26,10 @@ public:
     //destructor session in recycle list.
     void recycleAll( void );
 	void clearAllSession();
-    template<typename T>
-    T* createSession();
+    template<typename T>    T* createSession();
+    template<typename T>    T* createSession(boost::asio::io_service& io_service,                   
+                                        char *str, int len,                                     
+                                        char *ip , char *port);
     void recyclerSession( Session* );
 private:
     SessionFactory();
@@ -55,6 +58,22 @@ T* SessionFactory::createSession()
     }
 
     return session;
+}
+template<typename T>    
+T* createSession(boost::asio::io_service& io_service,                   
+                char *str, int len,                                     
+                char *ip , char *port)
+{
+    T *session;
+    session = new T(io_service,str,len,ip,port);
+    if ( session != NULL )
+    {
+        add( session );
+    }
+
+    return session;
+    
+
 }
 
 

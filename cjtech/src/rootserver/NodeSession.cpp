@@ -19,8 +19,8 @@ NodeSession::NodeSession(boost::asio::io_service& io_service,
         socket_(io_service)//len 不含有末尾的\0
 
 {
-    data_ = new char[len]; 
-    memset(data_ , 0 ,len);
+    data_ = new char[len+1]; 
+    memset(data_ , 0 ,len +1);
     memcpy(data_ , str , len);
     data_[strlen(data_)]= '\0';
     memcpy(ip_ , ip , strlen(ip));
@@ -114,7 +114,10 @@ void NodeSession::SendtoClient(const boost::system::error_code& error)
 {
 
     if(!error)
-    {}
+    {
+    //查找到自己的sessionid,然后将任务丢给session回写
+    
+    }
     else
     {}
 }
