@@ -8,25 +8,26 @@
 #include<iostream>
 #include<malloc.h>
 #include<string.h>
+#include<string>
 #include "NodeSession.h"
 using namespace std;
 
 NodeSession::NodeSession(boost::asio::io_service& io_service,
-                        char *str, int len,
-                        char *ip , char *port)
+                        string &str,
+                         string ip , string port)
     :   session_id_(-1),
         io_service_(io_service),
-        socket_(io_service)//len 不含有末尾的\0
+        socket_(io_service)
 
 {
-    data_ = new char[len+1]; 
-    memset(data_ , 0 ,len +1);
-    memcpy(data_ , str , len);
+    data_ = new char[str.length()+1]; 
+    memset(data_ , 0 ,str.length() +1);
+    memcpy(data_ , str.c_str() , str.length());
     data_[strlen(data_)]= '\0';
-    memcpy(ip_ , ip , strlen(ip));
-    ip_[strlen(ip)] = '\0';
-    memcpy(port_ , port , strlen(port));
-    port_[strlen(port)] = '\0';
+    memcpy(ip_ , ip.c_str() , ip.length());
+    ip_[strlen(ip_)] = '\0';
+    memcpy(port_ , port.c_str() , port.length());
+    port_[strlen(port_)] = '\0';
 } 
 NodeSession::~NodeSession()
 {

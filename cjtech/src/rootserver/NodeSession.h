@@ -9,16 +9,17 @@
 #define _NODESESSION_H
 #include <boost/shared_ptr.hpp>    
 #include <boost/asio.hpp>
-
+#include <string>
 #include <boost/bind.hpp>  
 #include "InnerMessage.h"
 using boost::asio::ip::tcp;  
+using namespace std;
 //using  NodeSession;
 class NodeSession
 {
 public:
 
-    NodeSession(boost::asio::io_service& io_service,char * str,int len, char *ip , char * port);
+    NodeSession(boost::asio::io_service& io_service, string & str, string ip , string port);
     virtual ~NodeSession();
 public:
     void Start();

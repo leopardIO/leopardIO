@@ -39,8 +39,7 @@ void SessionManager::SendReqtoNode(string req )
    GetNodeAddr(ip,port);
    g_io_service_pool.get_io_service();
    NodeSession * nodesession = SessionFactory::getInstance()->createSession<NodeSession>(
-               g_io_service_pool.get_io_service(),
-                req.c_str(),int(req.length()),ip.c_str(),port.c_str());
+               g_io_service_pool.get_io_service(),req,ip,port);
 
    nodesession->Start();
       
