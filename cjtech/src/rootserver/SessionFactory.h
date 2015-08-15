@@ -3,10 +3,11 @@
 
 #include <map>
 #include <list>
-
+#include<string>
 #include <boost/thread/mutex.hpp>
 #include <boost/asio.hpp>
 #include "Singleton.h"
+using namespace std;
 
 class Session;
 class SessionFactory: public Singleton<SessionFactory>
@@ -28,8 +29,10 @@ public:
 	void clearAllSession();
     template<typename T>    T* createSession();
     template<typename T>    T* createSession(boost::asio::io_service& io_service,                   
-                                        char *str, int len,                                     
-                                        char *ip , char *port);
+                                        string &str,                                    
+                                        string ip , string port);
+    template<typename T>    T* createSession(boost::asio::io_service& io_service);
+    
     void recyclerSession( Session* );
 private:
     SessionFactory();
@@ -61,11 +64,11 @@ T* SessionFactory::createSession()
 }
 template<typename T>    
 T* createSession(boost::asio::io_service& io_service,                   
-                char *str, int len,                                     
-                char *ip , char *port)
+                string &str,                                    
+                string ip , string port)
 {
     T *session;
-    session = new T(io_service,str,len,ip,port);
+    session = new T(io_service,str,ip,port);
     if ( session != NULL )
     {
         add( session );
@@ -73,6 +76,21 @@ T* createSession(boost::asio::io_service& io_service,
 
     return session;
     
+
+}
+template<typename T>    
+T* createSession(boost::asio::io_service& io_service)
+{
+    T *session;
+    session = new T(io_service);
+    if ( session != NULL )
+    {
+        add( session );
+    }
+
+    return session;
+    
+
 
 }
 
