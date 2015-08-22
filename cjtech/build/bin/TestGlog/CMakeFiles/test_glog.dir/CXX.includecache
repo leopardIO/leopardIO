@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/cjtech/gitdir/leopardIO/cjtech/src/TestGlog/test_glog.cpp
+iostream
+-
+glog/logging.h
+-
+

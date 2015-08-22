@@ -5,6 +5,9 @@ using std::cin;
 using std::endl;
 using boost::asio::ip::tcp;
 
+
+
+
 namespace cjtech{
     namespace NodeServer{
         NodeServer::NodeServer(short port, int thread_cnt)
@@ -12,8 +15,8 @@ namespace cjtech{
             acceptor_(io_service_pool_.get_io_service(), tcp::endpoint(tcp::v4(), port))
         {
             RootSession* new_session = new RootSession(io_service_pool_.get_io_service());
-            acceptor_.async_accept(new_session->socket(),
-                    boost::bind(&RootServer::handle_accept, this, new_session, 
+            acceptor_.async_accept(new_session->GetSocket(),
+                    boost::bind(&NodeServer::handle_accept, this, new_session, 
                         boost::asio::placeholders::error));
         }
 
@@ -22,7 +25,7 @@ namespace cjtech{
         {
             if (!error)
             {
-                new_session->start();
+                new_session->Start();
             }
             else
             {
@@ -35,8 +38,8 @@ namespace cjtech{
             cout<<"accept new task"<<endl;
 #endif
             new_session = new RootSession(io_service_pool_.get_io_service());
-            acceptor_.async_accept(new_session->socket(),
-                    boost::bind(&RootServer::handle_accept, this, new_session, 
+            acceptor_.async_accept(new_session->GetSocket(),
+                    boost::bind(&NodeServer::handle_accept, this, new_session, 
                         boost::asio::placeholders::error));
         }
 

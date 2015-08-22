@@ -39,10 +39,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cjtech/gitdir/cjtech
+CMAKE_SOURCE_DIR = /home/cjtech/gitdir/leopardIO/cjtech
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cjtech/gitdir/cjtech/build
+CMAKE_BINARY_DIR = /home/cjtech/gitdir/leopardIO/cjtech/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,9 +69,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles /home/cjtech/gitdir/cjtech/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/leopardIO/cjtech/build/CMakeFiles /home/cjtech/gitdir/leopardIO/cjtech/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/leopardIO/cjtech/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -99,43 +99,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named test
+# Target rules for targets named test_glog
 
 # Build rule for target.
-test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test
-.PHONY : test
+test_glog: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_glog
+.PHONY : test_glog
 
 # fast build rule for target.
-test/fast:
-	$(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/build
-.PHONY : test/fast
-
-#=============================================================================
-# Target rules for targets named nodeserver
-
-# Build rule for target.
-nodeserver: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nodeserver
-.PHONY : nodeserver
-
-# fast build rule for target.
-nodeserver/fast:
-	$(MAKE) -f bin/nodeserver/CMakeFiles/nodeserver.dir/build.make bin/nodeserver/CMakeFiles/nodeserver.dir/build
-.PHONY : nodeserver/fast
-
-#=============================================================================
-# Target rules for targets named rootserver
-
-# Build rule for target.
-rootserver: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 rootserver
-.PHONY : rootserver
-
-# fast build rule for target.
-rootserver/fast:
-	$(MAKE) -f bin/rootserver/CMakeFiles/rootserver.dir/build.make bin/rootserver/CMakeFiles/rootserver.dir/build
-.PHONY : rootserver/fast
+test_glog/fast:
+	$(MAKE) -f bin/TestGlog/CMakeFiles/test_glog.dir/build.make bin/TestGlog/CMakeFiles/test_glog.dir/build
+.PHONY : test_glog/fast
 
 # Help Target
 help:
@@ -145,9 +119,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... test"
-	@echo "... nodeserver"
-	@echo "... rootserver"
+	@echo "... test_glog"
 .PHONY : help
 
 

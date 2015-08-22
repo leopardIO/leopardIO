@@ -1,3 +1,12 @@
+/*************************************************************************
+	> File Name: DBToMap.h
+	> Author: cooperz
+	> Mail: zbzcsn@qq.com
+	> Created Time: Sat 08 Aug 2015 09:17:25 AM UTC
+ ************************************************************************/
+
+#ifndef _DBTOMAP_H
+#define _DBTOMAP_H
 #include <iostream>
 #include <string.h>
 #include <string>
@@ -31,4 +40,4 @@ class DBToMap
 		map<const char * ,const char * ,ltstr> picture_map_;		
 		map<const char * ,const char * ,ltstr>::iterator iter_;
 };
-
+#endif

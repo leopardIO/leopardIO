@@ -19,7 +19,6 @@ namespace cjtech{
                 work_sptr work(new boost::asio::io_service::work(*io_service));
                 io_services_.push_back(io_service);
                 work_.push_back(work);
-
             }
         }
         void IOServerPool::start()

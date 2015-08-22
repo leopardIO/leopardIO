@@ -1,4 +1,4 @@
-# Install script for directory: /home/cjtech/gitdir/cjtech/src
+# Install script for directory: /home/cjtech/gitdir/leopardIO/cjtech/src
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,8 +34,7 @@ ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  INCLUDE("/home/cjtech/gitdir/cjtech/build/bin/nodeserver/cmake_install.cmake")
-  INCLUDE("/home/cjtech/gitdir/cjtech/build/bin/rootserver/cmake_install.cmake")
+  INCLUDE("/home/cjtech/gitdir/leopardIO/cjtech/build/bin/TestGlog/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 

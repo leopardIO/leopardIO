@@ -7,6 +7,8 @@
 
 #include "ClientSession.h"
 #include<iostream>
+#include <sys/syscall.h>
+#include <pthread.h>
 #include "ClientMessage.h"
 
 using namespace std;
@@ -32,6 +34,10 @@ namespace cjtech{
         void ClientSession::start()
         {
             std::cout<<"clientsession::start"<<std::endl;
+            pthread_t tid =  pthread_self();
+            std::cout<<"clientsession::start::tid"<<tid<<std::endl;
+            printf("child thread lwpid = %u\n", syscall(SYS_gettid));
+            printf("child thread tid = %u\n", pthread_self()); 
             _msg_ = new ClientMessage();
             boost::asio::async_read(_socket_, boost::asio::buffer(_msg_->GetJsonLenLoa(), 
                         _msg_->GetJsonHeaderLen()),
@@ -43,6 +49,8 @@ namespace cjtech{
         {        
             if(!error)
             {
+                pthread_t tid =  pthread_self();
+                std::cout<<"clientsession::json_header_len_recved::tid"<<tid<<std::endl;
                 std::cout<<"clientsession::json lens recved"<<std::endl;
                 _msg_->TranJsonLenCharToInt();
                 boost::asio::async_read(_socket_, boost::asio::buffer(_msg_->GetJsonBodyLoc(), 
@@ -92,34 +100,6 @@ namespace cjtech{
                 delete this;
             }
         }
-
-        void ClientSession::h_pic_match(const boost::system::error_code& error)
-        {
-            if (!error)
-            {	
-                //进行match的调用
-                //
-                //
-                //
-                //            
-                query_db();
-                //
-                //
-                //
-                //
-                sent_result_back();
-            }
-            else
-            {
-                delete this;
-            }
-        }
-
-        void ClientSession::query_db(/*  */)
-        {
-            //进行数据库的操作  
-            //返回的结果记录在my_msg_		
-        }	
 
         void ClientSession::sent_result_back(/*  */)
         { 

@@ -1,0 +1,1 @@
+/usr/bin/c++    -g -std=c++11 -O2     CMakeFiles/test_glog.dir/test_glog.cpp.o  -o ../../../bin/test_glog  -L/home/cjtech/gitdir/leopardIO/cjtech/lib -rdynamic -lglog -Wl,-rpath,/home/cjtech/gitdir/leopardIO/cjtech/lib 

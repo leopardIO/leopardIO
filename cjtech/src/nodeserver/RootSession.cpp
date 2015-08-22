@@ -13,6 +13,9 @@
 
 using namespace std;
 
+Matcher* g_pic_matcher;
+DBToMap* g_db_cache;
+
 namespace cjtech
 {
     namespace NodeServer
@@ -48,6 +51,7 @@ namespace cjtech
 
         void RootSession::HandleProtobufHeaderLen(const boost::system::error_code& error)
         {
+            cout<<*(_msg_->GetInnerMsgHeaderLoc())<<endl;
             bool alloc = _msg_->InnerMsgAlloc();
             if(!error && alloc)
             {
@@ -85,7 +89,7 @@ namespace cjtech
         {
             if(!error)
             {
-                cout<<"Match:"<<endl;
+                cout<<"Match:"<<_msg_->GetFileBodyLen()<<endl;
                 /*
                  * todo:error handle
                  * attention;
@@ -93,22 +97,24 @@ namespace cjtech
                 string filepath = 
                     _WriteToFile(_msg_->GetFileBodyLoc(), _msg_->GetFileBodyLen());
                 cout<<"Write to file path:"<<filepath<<endl;
-                extern Matcher* g_pic_matcher;
                 string result = g_pic_matcher->match( filepath.c_str(), FEATUREPATH, TRANDIR);
                 cout<<"Match result:"<<result<<endl;
                 string filename;
                 size_t filename_end_pos = result.find("&&");
                 if(filename_end_pos != string::npos)
                 {
-                    filename = result.substr(0, filename_end_pos-1);
+                    filename = result.substr(0, filename_end_pos);
                 }
                 cout<<"Query fileName:"<<filename<<endl;
-                extern DBToMap* g_db_cache;
                 string response = g_db_cache->query(filename.c_str());
                 cout<<"Response:"<<response<<endl;
                 _msg_->ClearFileBody();
                 _msg_->SetFileBody(response.c_str(), response.length());
                 _msg_->SetWriteBuf();
+                boost::asio::async_write(_socket_, 
+                        boost::asio::buffer(_msg_->write_buf_,_msg_->write_len_),  
+                        boost::bind(&RootSession::SendbackResult, this, 
+                            boost::asio::placeholders::error));
             }
             else
             {
@@ -120,10 +126,7 @@ namespace cjtech
         {
             if(!error)
             {
-                boost::asio::async_write(_socket_, 
-                        boost::asio::buffer(_msg_->write_buf_,_msg_->write_len_),  
-                        boost::bind(NULL, this, 
-                            boost::asio::placeholders::error));
+                cout<<"Send back OK!"<<endl;
             }
             else
             {
@@ -144,11 +147,15 @@ namespace cjtech
         {
             string rand_str = _RandomNum();
             string filepath = string(TMP_PATH) + rand_str;
-            int fd = open( filepath.c_str() , O_RDWR);
+            cout<<"file path:"<<filepath.c_str()<<endl;
+            int fd = open( filepath.c_str() , O_CREAT | O_RDWR , 0666);
+            if(fd<=0)
+                perror("open error\n");
             int wnum = write(fd , msg, len);
             if(wnum <=0)
             {
-                cout<<"write error"<<endl;
+                //cout<<"write error"<<endl;
+                perror("write error\n");
                 return "";
             }
             return filepath;

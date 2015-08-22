@@ -39,10 +39,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cjtech/gitdir/cjtech
+CMAKE_SOURCE_DIR = /home/cjtech/gitdir/leopardIO/cjtech
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cjtech/gitdir/cjtech/build
+CMAKE_BINARY_DIR = /home/cjtech/gitdir/leopardIO/cjtech/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,14 +69,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/cjtech/gitdir/cjtech/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles /home/cjtech/gitdir/cjtech/build/bin/CMakeFiles/progress.marks
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f CMakeFiles/Makefile2 bin/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles 0
+	cd /home/cjtech/gitdir/leopardIO/cjtech/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/leopardIO/cjtech/build/CMakeFiles /home/cjtech/gitdir/leopardIO/cjtech/build/bin/CMakeFiles/progress.marks
+	cd /home/cjtech/gitdir/leopardIO/cjtech/build && $(MAKE) -f CMakeFiles/Makefile2 bin/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/leopardIO/cjtech/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f CMakeFiles/Makefile2 bin/clean
+	cd /home/cjtech/gitdir/leopardIO/cjtech/build && $(MAKE) -f CMakeFiles/Makefile2 bin/clean
 .PHONY : clean
 
 # The main clean target
@@ -85,80 +85,18 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f CMakeFiles/Makefile2 bin/preinstall
+	cd /home/cjtech/gitdir/leopardIO/cjtech/build && $(MAKE) -f CMakeFiles/Makefile2 bin/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f CMakeFiles/Makefile2 bin/preinstall
+	cd /home/cjtech/gitdir/leopardIO/cjtech/build && $(MAKE) -f CMakeFiles/Makefile2 bin/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/cjtech/gitdir/cjtech/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/cjtech/gitdir/leopardIO/cjtech/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-# Convenience name for target.
-bin/CMakeFiles/test.dir/rule:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/test.dir/rule
-.PHONY : bin/CMakeFiles/test.dir/rule
-
-# Convenience name for target.
-test: bin/CMakeFiles/test.dir/rule
-.PHONY : test
-
-# fast build rule for target.
-test/fast:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/build
-.PHONY : test/fast
-
-JsonMap.o: JsonMap.cpp.o
-.PHONY : JsonMap.o
-
-# target to build an object file
-JsonMap.cpp.o:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/JsonMap.cpp.o
-.PHONY : JsonMap.cpp.o
-
-JsonMap.i: JsonMap.cpp.i
-.PHONY : JsonMap.i
-
-# target to preprocess a source file
-JsonMap.cpp.i:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/JsonMap.cpp.i
-.PHONY : JsonMap.cpp.i
-
-JsonMap.s: JsonMap.cpp.s
-.PHONY : JsonMap.s
-
-# target to generate assembly for a file
-JsonMap.cpp.s:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/JsonMap.cpp.s
-.PHONY : JsonMap.cpp.s
-
-mainthread.o: mainthread.cpp.o
-.PHONY : mainthread.o
-
-# target to build an object file
-mainthread.cpp.o:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/mainthread.cpp.o
-.PHONY : mainthread.cpp.o
-
-mainthread.i: mainthread.cpp.i
-.PHONY : mainthread.i
-
-# target to preprocess a source file
-mainthread.cpp.i:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/mainthread.cpp.i
-.PHONY : mainthread.cpp.i
-
-mainthread.s: mainthread.cpp.s
-.PHONY : mainthread.s
-
-# target to generate assembly for a file
-mainthread.cpp.s:
-	cd /home/cjtech/gitdir/cjtech/build && $(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/mainthread.cpp.s
-.PHONY : mainthread.cpp.s
 
 # Help Target
 help:
@@ -168,13 +106,6 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... test"
-	@echo "... JsonMap.o"
-	@echo "... JsonMap.i"
-	@echo "... JsonMap.s"
-	@echo "... mainthread.o"
-	@echo "... mainthread.i"
-	@echo "... mainthread.s"
 .PHONY : help
 
 
@@ -186,6 +117,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/cjtech/gitdir/cjtech/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/cjtech/gitdir/leopardIO/cjtech/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

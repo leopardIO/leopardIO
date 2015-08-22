@@ -1,1 +1,0 @@
-/usr/bin/c++    -g -std=c++11 -O2     CMakeFiles/nodeserver.dir/tcpmessage.cpp.o CMakeFiles/nodeserver.dir/db_to_map.cpp.o CMakeFiles/nodeserver.dir/server.cpp.o  -o ../../../bin/nodeserver  -L/home/cjtech/gitdir/cjtech/lib -rdynamic -lboost_system -lboost_thread -lmysqlclient -Wl,-rpath,/home/cjtech/gitdir/cjtech/lib 

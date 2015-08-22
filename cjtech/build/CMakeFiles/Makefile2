@@ -47,164 +47,74 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cjtech/gitdir/cjtech
+CMAKE_SOURCE_DIR = /home/cjtech/gitdir/leopardIO/cjtech
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cjtech/gitdir/cjtech/build
+CMAKE_BINARY_DIR = /home/cjtech/gitdir/leopardIO/cjtech/build
 
 #=============================================================================
 # Directory level rules for directory bin
 
 # Convenience name for "all" pass in the directory.
-bin/all: bin/CMakeFiles/test.dir/all
-bin/all: bin/nodeserver/all
-bin/all: bin/rootserver/all
+bin/all: bin/TestGlog/all
 .PHONY : bin/all
 
 # Convenience name for "clean" pass in the directory.
-bin/clean: bin/CMakeFiles/test.dir/clean
-bin/clean: bin/nodeserver/clean
-bin/clean: bin/rootserver/clean
+bin/clean: bin/TestGlog/clean
 .PHONY : bin/clean
 
 # Convenience name for "preinstall" pass in the directory.
-bin/preinstall: bin/nodeserver/preinstall
-bin/preinstall: bin/rootserver/preinstall
+bin/preinstall: bin/TestGlog/preinstall
 .PHONY : bin/preinstall
 
 #=============================================================================
-# Target rules for target bin/CMakeFiles/test.dir
-
-# All Build rule for target.
-bin/CMakeFiles/test.dir/all:
-	$(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/depend
-	$(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cjtech/gitdir/cjtech/build/CMakeFiles  6 7
-	@echo "Built target test"
-.PHONY : bin/CMakeFiles/test.dir/all
-
-# Include target in all.
-all: bin/CMakeFiles/test.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-bin/CMakeFiles/test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles 0
-.PHONY : bin/CMakeFiles/test.dir/rule
-
-# Convenience name for target.
-test: bin/CMakeFiles/test.dir/rule
-.PHONY : test
-
-# clean rule for target.
-bin/CMakeFiles/test.dir/clean:
-	$(MAKE) -f bin/CMakeFiles/test.dir/build.make bin/CMakeFiles/test.dir/clean
-.PHONY : bin/CMakeFiles/test.dir/clean
-
-# clean rule for target.
-clean: bin/CMakeFiles/test.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory bin/nodeserver
+# Directory level rules for directory bin/TestGlog
 
 # Convenience name for "all" pass in the directory.
-bin/nodeserver/all: bin/nodeserver/CMakeFiles/nodeserver.dir/all
-.PHONY : bin/nodeserver/all
+bin/TestGlog/all: bin/TestGlog/CMakeFiles/test_glog.dir/all
+.PHONY : bin/TestGlog/all
 
 # Convenience name for "clean" pass in the directory.
-bin/nodeserver/clean: bin/nodeserver/CMakeFiles/nodeserver.dir/clean
-.PHONY : bin/nodeserver/clean
+bin/TestGlog/clean: bin/TestGlog/CMakeFiles/test_glog.dir/clean
+.PHONY : bin/TestGlog/clean
 
 # Convenience name for "preinstall" pass in the directory.
-bin/nodeserver/preinstall:
-.PHONY : bin/nodeserver/preinstall
+bin/TestGlog/preinstall:
+.PHONY : bin/TestGlog/preinstall
 
 #=============================================================================
-# Target rules for target bin/nodeserver/CMakeFiles/nodeserver.dir
+# Target rules for target bin/TestGlog/CMakeFiles/test_glog.dir
 
 # All Build rule for target.
-bin/nodeserver/CMakeFiles/nodeserver.dir/all:
-	$(MAKE) -f bin/nodeserver/CMakeFiles/nodeserver.dir/build.make bin/nodeserver/CMakeFiles/nodeserver.dir/depend
-	$(MAKE) -f bin/nodeserver/CMakeFiles/nodeserver.dir/build.make bin/nodeserver/CMakeFiles/nodeserver.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cjtech/gitdir/cjtech/build/CMakeFiles  1 2 3
-	@echo "Built target nodeserver"
-.PHONY : bin/nodeserver/CMakeFiles/nodeserver.dir/all
+bin/TestGlog/CMakeFiles/test_glog.dir/all:
+	$(MAKE) -f bin/TestGlog/CMakeFiles/test_glog.dir/build.make bin/TestGlog/CMakeFiles/test_glog.dir/depend
+	$(MAKE) -f bin/TestGlog/CMakeFiles/test_glog.dir/build.make bin/TestGlog/CMakeFiles/test_glog.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cjtech/gitdir/leopardIO/cjtech/build/CMakeFiles  1
+	@echo "Built target test_glog"
+.PHONY : bin/TestGlog/CMakeFiles/test_glog.dir/all
 
 # Include target in all.
-all: bin/nodeserver/CMakeFiles/nodeserver.dir/all
+all: bin/TestGlog/CMakeFiles/test_glog.dir/all
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-bin/nodeserver/CMakeFiles/nodeserver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles 3
-	$(MAKE) -f CMakeFiles/Makefile2 bin/nodeserver/CMakeFiles/nodeserver.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles 0
-.PHONY : bin/nodeserver/CMakeFiles/nodeserver.dir/rule
+bin/TestGlog/CMakeFiles/test_glog.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/leopardIO/cjtech/build/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 bin/TestGlog/CMakeFiles/test_glog.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/leopardIO/cjtech/build/CMakeFiles 0
+.PHONY : bin/TestGlog/CMakeFiles/test_glog.dir/rule
 
 # Convenience name for target.
-nodeserver: bin/nodeserver/CMakeFiles/nodeserver.dir/rule
-.PHONY : nodeserver
+test_glog: bin/TestGlog/CMakeFiles/test_glog.dir/rule
+.PHONY : test_glog
 
 # clean rule for target.
-bin/nodeserver/CMakeFiles/nodeserver.dir/clean:
-	$(MAKE) -f bin/nodeserver/CMakeFiles/nodeserver.dir/build.make bin/nodeserver/CMakeFiles/nodeserver.dir/clean
-.PHONY : bin/nodeserver/CMakeFiles/nodeserver.dir/clean
+bin/TestGlog/CMakeFiles/test_glog.dir/clean:
+	$(MAKE) -f bin/TestGlog/CMakeFiles/test_glog.dir/build.make bin/TestGlog/CMakeFiles/test_glog.dir/clean
+.PHONY : bin/TestGlog/CMakeFiles/test_glog.dir/clean
 
 # clean rule for target.
-clean: bin/nodeserver/CMakeFiles/nodeserver.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory bin/rootserver
-
-# Convenience name for "all" pass in the directory.
-bin/rootserver/all: bin/rootserver/CMakeFiles/rootserver.dir/all
-.PHONY : bin/rootserver/all
-
-# Convenience name for "clean" pass in the directory.
-bin/rootserver/clean: bin/rootserver/CMakeFiles/rootserver.dir/clean
-.PHONY : bin/rootserver/clean
-
-# Convenience name for "preinstall" pass in the directory.
-bin/rootserver/preinstall:
-.PHONY : bin/rootserver/preinstall
-
-#=============================================================================
-# Target rules for target bin/rootserver/CMakeFiles/rootserver.dir
-
-# All Build rule for target.
-bin/rootserver/CMakeFiles/rootserver.dir/all:
-	$(MAKE) -f bin/rootserver/CMakeFiles/rootserver.dir/build.make bin/rootserver/CMakeFiles/rootserver.dir/depend
-	$(MAKE) -f bin/rootserver/CMakeFiles/rootserver.dir/build.make bin/rootserver/CMakeFiles/rootserver.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cjtech/gitdir/cjtech/build/CMakeFiles  4 5
-	@echo "Built target rootserver"
-.PHONY : bin/rootserver/CMakeFiles/rootserver.dir/all
-
-# Include target in all.
-all: bin/rootserver/CMakeFiles/rootserver.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-bin/rootserver/CMakeFiles/rootserver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 bin/rootserver/CMakeFiles/rootserver.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cjtech/gitdir/cjtech/build/CMakeFiles 0
-.PHONY : bin/rootserver/CMakeFiles/rootserver.dir/rule
-
-# Convenience name for target.
-rootserver: bin/rootserver/CMakeFiles/rootserver.dir/rule
-.PHONY : rootserver
-
-# clean rule for target.
-bin/rootserver/CMakeFiles/rootserver.dir/clean:
-	$(MAKE) -f bin/rootserver/CMakeFiles/rootserver.dir/build.make bin/rootserver/CMakeFiles/rootserver.dir/clean
-.PHONY : bin/rootserver/CMakeFiles/rootserver.dir/clean
-
-# clean rule for target.
-clean: bin/rootserver/CMakeFiles/rootserver.dir/clean
+clean: bin/TestGlog/CMakeFiles/test_glog.dir/clean
 .PHONY : clean
 
 #=============================================================================

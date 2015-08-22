@@ -23,7 +23,6 @@ typedef int SOCKET;
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef struct sockaddr SOCKADDR;
 
-#define DEBUG   1
  
 using std::cout;
 using std::cin;

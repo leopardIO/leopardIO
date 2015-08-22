@@ -19,8 +19,6 @@ namespace cjtech{
                 void h_json_header_len(const boost::system::error_code& error);
                 void h_json_body(const boost::system::error_code& error);
                 void h_file_body(const boost::system::error_code& error);
-                void h_pic_match(const boost::system::error_code& error);
-                void query_db(/*  */);
                 void sent_result_back(/*  */);
             private:
                 ClientMessage* _msg_;

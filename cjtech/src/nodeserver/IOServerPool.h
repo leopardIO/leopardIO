@@ -14,7 +14,7 @@
 
 namespace cjtech
 {
-    namespace RootServer
+    namespace NodeServer
     {
         class IOServerPool{
             public:

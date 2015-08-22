@@ -12,6 +12,7 @@
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
 
+#define DEBUG 1
 
 using boost::asio::ip::tcp;  
 

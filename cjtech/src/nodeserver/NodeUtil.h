@@ -11,12 +11,10 @@
 #include "../../common/includeopencv/interface.h"
 #include "DBToMap.h"
 
-#define TMP_PATH "../../picsource/tmp/"
-#define TRANDIR "../../picsource/traindir/"
-#define FEATUREPATH "../../picsource/dest/"
-#define INDEXPATH "../../picsource/picindex"
+#define TMP_PATH "../picsource/tmp/"
+#define TRANDIR "../picsource/traindir/"
+#define FEATUREPATH "../picsource/dest/"
+#define INDEXPATH "../picsource/picindex"
 
-DBToMap* g_db_cache;
-Matcher* g_pic_matcher;
 
 #endif

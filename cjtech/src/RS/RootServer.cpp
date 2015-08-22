@@ -1,5 +1,7 @@
 ﻿#include "RootServer.h"
 
+#include <sys/syscall.h>
+
 using std::cout;
 using std::cin;
 using std::endl;
@@ -42,6 +44,10 @@ namespace cjtech{
 
         void RootServer::run()
         {
+            pthread_t tid =  pthread_self();
+            cout<<"RootServer::run::"<<tid<<endl;
+            printf("child thread lwpid = %u\n", syscall(SYS_gettid));
+            printf("child thread tid = %u\n", pthread_self()); 
             io_service_pool_.start();
             io_service_pool_.join();
         }
