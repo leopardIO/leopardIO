@@ -2,6 +2,7 @@
 #ADD_SUBDIRECTORY( TestNodeServer) 
 #ADD_SUBDIRECTORY( rootserver) 
 ADD_SUBDIRECTORY( RS) 
+ADD_SUBDIRECTORY( TestMutiThreadOpenCV) 
 #ADD_SUBDIRECTORY( TestGlog) 
 #ADD_EXECUTABLE(test ./mainthread.cpp ./JsonMap.cpp)
 #set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
