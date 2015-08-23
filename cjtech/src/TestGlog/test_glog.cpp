@@ -11,7 +11,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
     google::InitGoogleLogging(argv[0]);
-    google::SetLogDestination(google::GLOG_INFO,"./myInfo");
+    google::SetLogDestination(google::GLOG_INFO,"../log/myInfo");
     LOG(INFO) << "HELLO" << "ok!"; 
     return 0;
 }

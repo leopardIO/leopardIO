@@ -7,12 +7,12 @@
 //最后可以抽象出一个BaseSession出来
 #ifndef _NODESESSION_H
 #define _NODESESSION_H
-#include <boost/shared_ptr.hpp>    
+#include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 #include <string>
 #include <boost/bind.hpp>  
-#include "InnerMessage.h"
-using boost::asio::ip::tcp;  
+#include "ProInnerMessage.pb.h"
+using boost::asio::ip::tcp;
 using namespace std;
 //using  NodeSession;
 class NodeSession
