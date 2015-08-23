@@ -6,9 +6,11 @@
  ************************************************************************/
 
 #include "ClientSession.h"
-#include<iostream>
+#include <iostream>
 #include <sys/syscall.h>
 #include <pthread.h>
+#include <glog/logging.h>
+
 #include "ClientMessage.h"
 
 using namespace std;
@@ -89,9 +91,9 @@ namespace cjtech{
                 /*todo:handle file body
                 *g_ClientSession_manager(_msg_);
                 */
-
+                LOG(INFO) <<"my first info";
                 std::cout<<"ClientSession::file body recved"<<std::endl;
-                std::cout<<_msg_->GetJsonString()<<std::endl;;
+                std::cout<<_msg_->GetJsonString()<<std::endl;
                 _msg_ = NULL;
                 this->start();
             }

@@ -7,6 +7,7 @@
 
 #include <sys/syscall.h>
 #include <pthread.h>
+#include <glog/logging.h>
 
 
 #include "IOServerPool.h"
@@ -19,8 +20,11 @@ using namespace cjtech::RootServer;
 int main(int argn, char** argv)
 {
     //boost
+    google::InitGoogleLogging(argv[0]);
+    google::LogToStderr();//只输出到标准错误输出
     printf("child thread lwpid = %u\n", syscall(SYS_gettid));
     printf("child thread tid = %u\n", pthread_self()); 
+        
     RootServer s(6002, 1);
     s.run();
     while(true)
