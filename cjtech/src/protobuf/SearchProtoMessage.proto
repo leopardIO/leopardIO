@@ -1,0 +1,10 @@
+package leopardIO;   
+//root发送给node节点的查询文件的报文
+message SearchProtoMessage
+{
+    required int32 content_length = 1;//图片的长度
+    required float start_time = 2;
+    required float end_time = 3;
+}
+
+
