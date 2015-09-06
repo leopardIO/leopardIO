@@ -8,7 +8,11 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/asio.hpp>
 #include "Singleton.h"
+#include "HeadStructMessage.h"
+
+#include "Session.h"
 using namespace std;
+using namespace boost::asio;
 
 class Session;
 class SessionManager: public Singleton<SessionManager>
@@ -24,13 +28,14 @@ public:
     //SessionManager will not manager the session.
     bool Remove( int );
     //Add a session to RecycleAll list.
-    void RecycleAll( int );
+    void Recycle( int );
     //destructor session in RecycleAll list.
     void RecycleAll( void );
 	void ClearAllSession();
 //  template<typename T>    T* CreateSession(); 
-//  template<typename T>    T* CreateSession(boost::asio::io_service& io_service);    
-    void RecycleAllSession( Session* );
+//  template<typename T>    T* CreateSession(boost::asio::io_service& io_service); 
+	template<typename T>    T* CreateSession( tcp::socket temp_socket, struct HeadStructMessage head_msg);   
+    void RecycleSession( Session* );
 private:
     SessionManager();
     ~SessionManager();
@@ -45,6 +50,19 @@ private:
     SessionList _recycle_all_list_;
 	boost::mutex _mutex_;
 };
+
+template<typename T>    
+T* CreateSession( tcp::socket temp_socket, struct HeadStructMessage header)
+{
+	T* session;
+    session = new T( temp_socket , header);
+    if ( session != NULL )
+    {
+        Add( session );
+    }
+
+    return session;
+}  
 
 
 

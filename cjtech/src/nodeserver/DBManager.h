@@ -30,14 +30,14 @@ struct ltstr
 class DBManager
 {
 	public :
-		const char* query(const char * name);
+		const char* Query(const char * name);
 		void init(	const char * sql_host_name = "localhost",
 					const char * sql_user_name = "root",
 					const char * sql_passwd = "1314159" ,
 					const char * db_name = "picdb");
 					
 	private:
-		map<const char * ,const char * ,ltstr> picture_map_;		
-		map<const char * ,const char * ,ltstr>::iterator iter_;
+		map<const char * ,const char * ,ltstr> _picture_map_;		
+		map<const char * ,const char * ,ltstr>::iterator _iter_;
 };
 #endif

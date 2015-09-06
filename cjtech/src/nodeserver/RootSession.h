@@ -17,7 +17,8 @@
 #include <boost/thread.hpp>
 
 #include "RootSession.h"
-#include "IOServerPool.h"
+#include "IOServicePool.h"
+#include "HeadStructMessage.h"
 
 typedef int SOCKET;
 typedef struct sockAddr_in SOCKADDR_IN;
@@ -28,28 +29,34 @@ using std::cout;
 using std::cin;
 using std::endl;
 using boost::asio::ip::tcp;
+
+extern 	SessionManager* g_session_manager;  
+
 /*************************************************************************
  *
  *整个系统发送的报文的格式
- *+----------------+--------------+------------------------+
- *|		       	   |			  |						   |												
- *+----------------+--------------+------------------------+
- * proto len:type      proto body        file body
+ *+--------------------+--------------+------------------------+
+ *|		       	       |		      |						   |												
+ *+--------------------+--------------+------------------------+
+ * length&type of proto     proto body        file body
  *
  ************************************************************************/
 
-
 namespace NodeServer{
+
 	class RootSession
 	{
 	public:
 		RootSession(short port);
-		void handle_accept(const boost::system::error_code& error);
-		void run();
+		virtual ~RootSession();
+		void H_Read_Header(const boost::system::error_code& error);
+		void Run();
 	private:
+		typedef struct  HeadStructMessage Header;
 		tcp::acceptor _acceptor_;
-		tcp::socket _socket_temp_;
-		struct 		
+		tcp::socket *_p_socket_temp_;
+		Header _header_	;
+		
 	};
 }
 

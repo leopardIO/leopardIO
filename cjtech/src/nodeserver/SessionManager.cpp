@@ -73,7 +73,7 @@ bool SessionManager::Remove( int id )
     return ( eraseCount != 0 );
 }
 
-void SessionManager::RecycleAll( int id )
+void SessionManager::Recycle( int id )
 {
     Session* session = NULL;
 
@@ -89,7 +89,7 @@ void SessionManager::RecycleAll( int id )
         {
         }
 
-        session->RecycleAllr();
+        session->Recycler();
     }
     return;
 }
@@ -115,7 +115,7 @@ SessionManager::ClearAllSession()
         {
             SessionMap::iterator tempit = it;
             ++it;
-            RecycleAll( tempit->first );
+            Recycle( tempit->first );
         }
     }
 }
@@ -130,8 +130,8 @@ void SessionManager::RecycleAllSession( Session* session )
 {
     if ( session != NULL )
     {
-        session->RecycleAllr();
-        RecycleAll( session->session_id() );
+        session->Recycler();
+        Recycle( session->GetSessionID() );//对于取数据的函数，直接用小写
     }
     return;
 }

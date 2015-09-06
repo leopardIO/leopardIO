@@ -1,0 +1,9 @@
+message SearchProtoMessage
+{
+    required uint32 picture_length = 1;//图片的长度
+	required uint32 picture_name = 2 ;//图片的名字
+    required float start_time = 3;
+    required float end_time = 4;
+}
+
+
