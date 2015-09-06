@@ -36,25 +36,25 @@ namespace cjtech
 #ifdef DEBUG
             cout<<"rootsession::start"<<endl;
 #endif
-            _msg_ = new NodeMessage();
+            _on_recv_msg_ = new NodeMessage();
             boost::asio::async_read(_socket_,
-                    boost::asio::buffer(_msg_->GetInnerMsgHeaderLoc(),
-                        _msg_->GetInnerMsgHeaderLen()),
+                    boost::asio::buffer(_on_recv_msg_->GetInnerMsgHeaderLoc(),
+                        _on_recv_msg_->GetInnerMsgHeaderLen()),
                     boost::bind(&NodeSession::HandleProtobufHeaderLen, this,
                         boost::asio::placeholders::error));
         }
 
         void NodeSession::HandleProtobufHeaderLen(const boost::system::error_code& error)
         {
-            cout<<*(_msg_->GetInnerMsgHeaderLoc())<<endl;
-            bool alloc = _msg_->InnerMsgAlloc();
+            cout<<*(_on_recv_msg_->GetInnerMsgHeaderLoc())<<endl;
+            bool alloc = _on_recv_msg_->InnerMsgAlloc();
             if(!error && alloc)
             {
 #ifdef DEBUG
                 cout<<"rootsession::protobuf head recved"<<endl;
 #endif
-                boost::asio::async_read(_socket_, boost::asio::buffer(_msg_->GetInnerMsgLoc(), 
-                            _msg_->GetInnerMsgLen()),
+                boost::asio::async_read(_socket_, boost::asio::buffer(_on_recv_msg_->GetInnerMsgLoc(), 
+                            _on_recv_msg_->GetInnerMsgLen()),
                         boost::bind(&NodeSession::HandleProtobufBody, this, 
                             boost::asio::placeholders::error));
             }
@@ -66,11 +66,11 @@ namespace cjtech
 
         void NodeSession::HandleProtobufBody( const boost::system::error_code& error)
         {
-            bool alloc = _msg_->FileAlloc();
+            bool alloc = _on_recv_msg_->FileAlloc();
             if( !error && alloc)
             {
-                boost::asio::async_read(_socket_, boost::asio::buffer(_msg_->GetFileBodyLoc(), 
-                            _msg_->GetFileBodyLen()),
+                boost::asio::async_read(_socket_, boost::asio::buffer(_on_recv_msg_->GetFileBodyLoc(), 
+                            _on_recv_msg_->GetFileBodyLen()),
                         boost::bind(&NodeSession::HandleFileBody, this, 
                             boost::asio::placeholders::error));
             }
@@ -84,13 +84,13 @@ namespace cjtech
         {
             if(!error)
             {
-                cout<<"Match:"<<_msg_->GetFileBodyLen()<<endl;
+                cout<<"Match:"<<_on_recv_msg_->GetFileBodyLen()<<endl;
                 /*
                  * todo:error handle
                  * attention;
                  * */
                 boost::asio::async_write(_socket_, 
-                        boost::asio::buffer(_msg_->write_buf_,_msg_->write_len_),  
+                        boost::asio::buffer(_on_recv_msg_->write_buf_,_on_recv_msg_->write_len_),  
                         boost::bind(&NodeSession::SendbackResult, this, 
                             boost::asio::placeholders::error));
             }

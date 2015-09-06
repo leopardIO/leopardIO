@@ -11,8 +11,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
-
-#define DEBUG 2
+#include <boost/thread.hpp>
 
 using boost::asio::ip::tcp;  
 
@@ -36,11 +35,13 @@ namespace cjtech{
             private:
                 std::string _RandomNum();
                 std::string _WriteToFile(char* msg, int len);
-                NodeSession( const NodeSession& root_session);
+                NodeSession( const NodeSession& node_session);
                 NodeSession& operator=(const NodeSession);
             private:
-                NodeMessage* _msg_;
-                tcp::socket _socket_;   
+                boost::mutex _mtx_;
+                NodeMessage* _on_recv_msg_;
+                tcp::socket _socket_;
+                std::deque<NodeMessage*> _node_write_buf_;
         };
     }
 }

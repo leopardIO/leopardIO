@@ -36,7 +36,9 @@ namespace cjtech
                 void GetNodeByRotate( char** node_ip, char ** node_port);
                 void GetNodeByResource( char** node_ip, char** node_port);
             private:
+                /*遍历此数据结构*/
                 std::vector<boost::shared_ptr<NodeInfo>> node_list_;
+                /**/
                 std::map< std::string, std::map< std::string , 
                     boost::shared_ptr<NodeInfo>>> node_info_map;
         };

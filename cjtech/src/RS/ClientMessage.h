@@ -30,6 +30,7 @@ namespace cjtech
             public:
                 ClientMessage()
                 {
+                    send_or_not_ = false;
                     _json_body_len_ = 0;
                     _file_body_len_ = 0;
                 }
@@ -44,6 +45,10 @@ namespace cjtech
                 inline char* GetJsonBodyLoc()
                 {
                     return _json_body_c_;
+                }
+                inline char* GetOutLoc()
+                {
+                    return data_;
                 }
                 inline int GetFileBodyLen()
                 {
@@ -61,7 +66,10 @@ namespace cjtech
                 bool ParserProtoBuf();
                 void TranJsonLenCharToInt();
                 int GetJsonBodyLen();
+                int GetOutLen();
                 void TranFileLenToInt();
+            public:
+                bool send_or_not_;
             private:
                 enum { header_len = 12 };
                 enum { max_body_len = 10240 };
@@ -71,6 +79,7 @@ namespace cjtech
                 std::string _proto_buf_body_;
                 uint32_t _json_body_len_;
                 uint32_t _file_body_len_;
+                uint32_t _out_len_;
                 char _json_header_len_c_[12];
                 char* _json_body_c_;
                 char* _file_c_;

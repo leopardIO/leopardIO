@@ -44,10 +44,17 @@ namespace cjtech
             _json_body_c_ = (char*)malloc(sizeof(char)*_json_body_len_);
             return;
         }
+
         int ClientMessage::GetJsonBodyLen()
         {
             return _json_body_len_;
         }
+
+        int ClientMessage::GetOutLen()
+        {
+            return _out_len_;
+        }
+
         void ClientMessage::TranFileLenToInt()
         {
             string file_len_str = _json_map_["Content-Length"];

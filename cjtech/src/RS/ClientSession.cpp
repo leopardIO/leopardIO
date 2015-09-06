@@ -12,9 +12,13 @@
 #include <glog/logging.h>
 
 #include "ClientMessage.h"
+#include "SessionService.h"
 
 using namespace std;
 using boost::asio::ip::tcp;  
+
+extern cjtech::RootServer::SessionService* g_session_service;
+
 namespace cjtech{
     namespace RootServer{
         ClientSession::ClientSession(boost::asio::io_service& io_service)
@@ -40,9 +44,9 @@ namespace cjtech{
             std::cout<<"clientsession::start::tid"<<tid<<std::endl;
             printf("child thread lwpid = %u\n", syscall(SYS_gettid));
             printf("child thread tid = %u\n", pthread_self()); 
-            _msg_ = new ClientMessage();
-            boost::asio::async_read(_socket_, boost::asio::buffer(_msg_->GetJsonLenLoa(), 
-                        _msg_->GetJsonHeaderLen()),
+            _on_recv_msg_ = new ClientMessage();
+            boost::asio::async_read(_socket_, boost::asio::buffer(_on_recv_msg_->GetJsonLenLoa(), 
+                        _on_recv_msg_->GetJsonHeaderLen()),
                     boost::bind(&ClientSession::h_json_header_len, this, 
                         boost::asio::placeholders::error));
         }
@@ -54,9 +58,9 @@ namespace cjtech{
                 pthread_t tid =  pthread_self();
                 std::cout<<"clientsession::json_header_len_recved::tid"<<tid<<std::endl;
                 std::cout<<"clientsession::json lens recved"<<std::endl;
-                _msg_->TranJsonLenCharToInt();
-                boost::asio::async_read(_socket_, boost::asio::buffer(_msg_->GetJsonBodyLoc(), 
-                            _msg_->GetJsonBodyLen()),
+                _on_recv_msg_->TranJsonLenCharToInt();
+                boost::asio::async_read(_socket_, boost::asio::buffer(_on_recv_msg_->GetJsonBodyLoc(), 
+                            _on_recv_msg_->GetJsonBodyLen()),
                         boost::bind(&ClientSession::h_json_body, this, 
                             boost::asio::placeholders::error));
             }
@@ -71,10 +75,10 @@ namespace cjtech{
             if (!error)
             {
                 std::cout<<"ClientSession::json body recved"<<std::endl;
-                _msg_->ParserJson();
-                _msg_->TranFileLenToInt();
-                boost::asio::async_read(_socket_, boost::asio::buffer(_msg_->GetFileBodyLoc(), 
-                            _msg_->GetFileBodyLen()),
+                _on_recv_msg_->ParserJson();
+                _on_recv_msg_->TranFileLenToInt();
+                boost::asio::async_read(_socket_,boost::asio::buffer(_on_recv_msg_->GetFileBodyLoc(),
+                            _on_recv_msg_->GetFileBodyLen()),
                         boost::bind(&ClientSession::h_file_body, this, 
                             boost::asio::placeholders::error));
             }
@@ -89,12 +93,13 @@ namespace cjtech{
             if (!error)
             {	
                 /*todo:handle file body
-                *g_ClientSession_manager(_msg_);
-                */
+                 *g_ClientSession_manager(_on_recv_msg_);
+                 */
+                g_session_service->RequsetHandler(this, this->_on_recv_msg_);
                 LOG(INFO) <<"my first info";
                 std::cout<<"ClientSession::file body recved"<<std::endl;
-                std::cout<<_msg_->GetJsonString()<<std::endl;
-                _msg_ = NULL;
+                std::cout<<_on_recv_msg_->GetJsonString()<<std::endl;
+                _on_recv_msg_ = NULL;
                 this->start();
             }
             else
@@ -103,9 +108,37 @@ namespace cjtech{
             }
         }
 
-        void ClientSession::sent_result_back(/*  */)
+        void ClientSession::sent_result_back(const boost::system::error_code& error)
         { 
+            if(!error){
 
+                boost::mutex::scoped_lock locker(_mtx_);
+                int out_que_size = _cli_write_buf_.size();
+                while( _cli_write_buf_.front()->send_or_not_)
+                {
+                    delete _cli_write_buf_.front();
+                    _cli_write_buf_.pop_front();
+                }
+                if( out_que_size>=1)
+                {
+                    async_write(_socket_,boost::asio::buffer(
+                                _cli_write_buf_.front()->GetOutLoc(),
+                                _cli_write_buf_.front()->GetOutLen()),
+                            boost::bind(&ClientSession::sent_result_back, this,
+                                boost::asio::placeholders::error ));
+
+                    _cli_write_buf_.front()->send_or_not_ = true;
+                }
+            }else
+            {
+                
+            }
+        }
+
+        void ClientSession::add_out_msg(ClientMessage* out_msg)
+        {
+            boost::mutex::scoped_lock locker(_mtx_);
+            _cli_write_buf_.push_back(out_msg);
         }
     }
 }

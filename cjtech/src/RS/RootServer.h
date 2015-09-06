@@ -36,7 +36,7 @@ namespace cjtech{
         class RootServer
         {
             public:
-                RootServer(short port, int thread_cnt);
+                RootServer(short cli_port, int thread_cnt);
                 void handle_accept(ClientSession* new_session, 
                         const boost::system::error_code& error);
                 void run();

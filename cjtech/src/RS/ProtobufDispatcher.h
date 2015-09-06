@@ -19,19 +19,20 @@ namespace cjtech
 {
     namespace RootServer
     {
+        typedef boost::shared_ptr<google::protobuf::Message> MessagePtr;
+        typedef boost::function<void (tcp::socket,
+                MessagePtr const&,
+                struct timeval)> ProtobufMessageCallback;
         class ProtobufDispatcher
         {
-            typedef boost::shared_ptr<google::protobuf::Message> MessagePtr;
-            typedef boost::function<void (tcp::socket,
-                    MessagePtr const&,
-                    struct timeval)> ProtobufMessageCallback;
             public:
                 explicit ProtobufDispatcher(ProtobufMessageCallback const& callback):
                     _defaultcallback_(callback){};
                 virtual ~ProtobufDispatcher();
                 void onProtobufMessage(tcp::socket asio_socket, 
-                    MessagePtr const& pbmsg,
-                    struct timeval);
+                        MessagePtr const& pbmsg,
+                        struct timeval time_stmap);
+                void onClientMessage();
                 void RegisterMsgCallBack( google::protobuf::Descriptor const* desc,
                         ProtobufMessageCallback const& callback);
             private:

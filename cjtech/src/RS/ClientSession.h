@@ -1,8 +1,11 @@
 #ifndef ClientSession_H
 #define ClientSession_H
+
+#include <deque>
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
+#include <boost/thread.hpp>
 
 using boost::asio::ip::tcp;  
 
@@ -19,10 +22,13 @@ namespace cjtech{
                 void h_json_header_len(const boost::system::error_code& error);
                 void h_json_body(const boost::system::error_code& error);
                 void h_file_body(const boost::system::error_code& error);
-                void sent_result_back(/*  */);
+                void sent_result_back(const boost::system::error_code& error);
+                void add_out_msg(ClientMessage* out_msg);
             private:
-                ClientMessage* _msg_;
-                tcp::socket _socket_;   
+                boost::mutex _mtx_;
+                ClientMessage* _on_recv_msg_;
+                tcp::socket _socket_;
+                std::deque<ClientMessage*> _cli_write_buf_;
         };
     }
 }
