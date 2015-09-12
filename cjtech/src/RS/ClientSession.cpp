@@ -111,8 +111,6 @@ namespace cjtech{
         void ClientSession::sent_result_back(const boost::system::error_code& error)
         { 
             if(!error){
-
-                boost::mutex::scoped_lock locker(_mtx_);
                 int out_que_size = _cli_write_buf_.size();
                 while( _cli_write_buf_.front()->send_or_not_)
                 {
@@ -126,12 +124,27 @@ namespace cjtech{
                                 _cli_write_buf_.front()->GetOutLen()),
                             boost::bind(&ClientSession::sent_result_back, this,
                                 boost::asio::placeholders::error ));
-
                     _cli_write_buf_.front()->send_or_not_ = true;
                 }
             }else
             {
-                
+
+            }
+        }
+
+        void ClientSession::try_send_msg()
+        {
+            /*这个函数的存在书为了线程的切换*/
+            boost::mutex::scoped_lock locker(_mtx_);
+            int out_que_size = _cli_write_buf_.size();
+            if(out_que_size)
+            {
+                async_write(_socket_,boost::asio::buffer(
+                            _cli_write_buf_.front()->GetOutLoc(),
+                            _cli_write_buf_.front()->GetOutLen()),
+                        boost::bind(&ClientSession::sent_result_back, this,
+                            boost::asio::placeholders::error ));
+                _cli_write_buf_.front()->send_or_not_ = true;
             }
         }
 

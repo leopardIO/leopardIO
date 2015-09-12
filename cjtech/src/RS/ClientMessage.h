@@ -73,7 +73,7 @@ namespace cjtech
             private:
                 enum { header_len = 12 };
                 enum { max_body_len = 10240 };
-                char data_[header_len + max_body_len];
+                char* data_;
                 std::map<std::string,std::string> _json_map_;
                 std::string _json_body_;
                 std::string _proto_buf_body_;

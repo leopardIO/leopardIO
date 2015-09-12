@@ -23,6 +23,7 @@ namespace cjtech{
                 void h_json_body(const boost::system::error_code& error);
                 void h_file_body(const boost::system::error_code& error);
                 void sent_result_back(const boost::system::error_code& error);
+                void try_send_msg();
                 void add_out_msg(ClientMessage* out_msg);
             private:
                 boost::mutex _mtx_;

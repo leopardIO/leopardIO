@@ -55,6 +55,16 @@ namespace cjtech
             return _proto_len_;
         }
 
+        size_t NodeMessage::GetOutLen()
+        {
+            return _out_len_;
+        }
+
+        char* NodeMessage::GetOutLoc()
+        {
+            return _data_out_;
+        }
+
         bool NodeMessage::InnerMsgAlloc()
         {
             if(_inner_msg_header_len_>=1024*1024)
