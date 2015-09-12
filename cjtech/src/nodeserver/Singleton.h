@@ -12,7 +12,7 @@ public:
 
     virtual ~Singleton() {}
 
-    static T* GenerateID()
+    static T* GetInstance()
     {
         pthread_once( &_instance_initflag_, &Singleton::InitInstance );
         return _p_instance_;

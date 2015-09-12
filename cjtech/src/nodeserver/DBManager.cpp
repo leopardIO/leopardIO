@@ -9,7 +9,7 @@ void DBManager::init(	const char * sql_host_name 	,const char * sql_user_name ,\
     if(NULL == mysql_real_connect(&mysql, sql_host_name, sql_user_name, sql_passwd,db_name, 3306, NULL, 0))
     {
         fprintf(stderr, "error: %s",mysql_error(&mysql)); 
-        cout<<"127.0.0.1 connect error!"<<endl; 
+        cout<<"127.0.0.1 connect error!"<<endl; //#最后要改成是log格式
     }
     string str = "select name, url from picture;";
     mysql_query(&mysql, str.c_str());
@@ -19,26 +19,27 @@ void DBManager::init(	const char * sql_host_name 	,const char * sql_user_name ,\
     while(NULL != row)
     {
         if(row[1] == NULL)
-		    picture_map_[row[0]] = "NOT FOUND";
+		    _picture_map_[row[0]] = "NOT FOUND";
         else
             cout<<"插入"<<row[0]<<":"<<row[1]<<endl;
-		    picture_map_[row[0]] = row[1];
+		    _picture_map_[row[0]] = row[1];
 		row = mysql_fetch_row(result);
     }
     mysql_close(&mysql);	
-    cout<<"alter success !"<<endl;
+    cout<<"alter success !"<<endl;//最后要改成log
 }
 
-const char * DBManager::query(const char * name)
+const char * DBManager::Query(const char * name)
 {
     cout<<"search in db cache:"<<name<<endl;
-    iter_ = picture_map_.Find(name);
-    if(iter_ != picture_map_.end())
+    _iter_ = _picture_map_.Find(name);
+    if(_iter_ != _picture_map_.end())
     {
-       return iter_->second;
+       return _iter_->second;
     }
     else
     {
+		//最后要改成log
        return "NOT FOUND IN MAP";
     }
 }

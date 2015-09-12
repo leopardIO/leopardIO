@@ -1,131 +1,63 @@
-/*************************************************************************
-  > File Name: SearchSession.cpp
-  > Author: cooperz
-  > Mail: zbzcsn@qq.com
-  > Created Time: Sat 08 Aug 2015 01:39:38 AM UTC
- ************************************************************************/
 #include "SearchSession.h"
 #include<iostream>
-#include "../../common/includeopencv/interface.h"
-#include "RootMessage.h"
-#include "DBToMap.h"
 #include "NodeUtil.h"
+#include "SessionManager.h"
 
 using namespace std;
+extern SessionManager *g_session_manager;
+extern NodeServer::IOServicePool* g_io_service_pool;
 
-Matcher* g_pic_matcher;
-DBToMap* g_db_cache;
-
-
-namespace RootServer
+namespace NodeServer
 {
-	SearchSession::SearchSession(boost::asio::io_service& io_service):
-		_socket_(io_service)
+	SearchSession::SearchSession(tcp::socket temp_socket, struct HeadStructMessage header )
+		: _socket_(g_io_service_pool->GetIoService()) 
 	{
+        _header_ = header;
+        int socketDup = dup(temp_socket.native());
+        _socket_.assign(boost::asio::ip::tcp::v4(), socketDup);
 
+        
+        
 	}
-
 	SearchSession::~SearchSession()
 	{
 
 	}
 
-	tcp::socket& SearchSession::GetSocket()
-	{
-		return _socket_;
-	}
-
 	void SearchSession::Start()
 	{
 #ifdef DEBUG
-		cout<<"rootsession::start"<<endl;
+		cout<<"SearchSession::start"<<endl;
 #endif
-		_msg_ = new RootMessage();
+		_proto_buf_ptr_ = new char[_header_.length + 1];
+		memset(_proto_buf_ptr_ , 0 ,_header_.length + 1);
 		boost::asio::async_read(_socket_,
-				boost::asio::buffer(_msg_->GetInnerMsgHeaderLoc(),
-					_msg_->GetInnerMsgHeaderLen()),
-				boost::bind(&SearchSession::HandleProtobufHeaderLen, this,
-					boost::asio::placeholders::error));
+				boost::asio::buffer(_proto_buf_ptr_,_header_.length),
+				boost::bind(&SearchSession::H_ReadContent, this,
+					boost::asio::placeholders::error));		
 	}
 
-	void SearchSession::HandleProtobufHeaderLen(const boost::system::error_code& error)
+	void SearchSession::H_ReadContent(const boost::system::error_code& error)
 	{
-		cout<<*(_msg_->GetInnerMsgHeaderLoc())<<endl;
-		bool alloc = _msg_->InnerMsgAlloc();
-		if(!error && alloc)
+		if( !error)
 		{
-#ifdef DEBUG
-			cout<<"rootsession::protobuf head recved"<<endl;
-#endif
-			boost::asio::async_read(_socket_, boost::asio::buffer(_msg_->GetInnerMsgLoc(), 
-						_msg_->GetInnerMsgLen()),
-					boost::bind(&SearchSession::HandleProtobufBody, this, 
-						boost::asio::placeholders::error));
-		}
-		else
-		{
-
-		}
-	}
-
-	void SearchSession::HandleProtobufBody( const boost::system::error_code& error)
-	{
-		bool alloc = _msg_->FileAlloc();
-		if( !error && alloc)
-		{
-			boost::asio::async_read(_socket_, boost::asio::buffer(_msg_->GetFileBodyLoc(), 
-						_msg_->GetFileBodyLen()),
-					boost::bind(&SearchSession::HandleFileBody, this, 
-						boost::asio::placeholders::error));
-		}
-		else
-		{
-
-		}
-	}
-
-	void SearchSession::HandleFileBody( const boost::system::error_code& error)
-	{
-		if(!error)
-		{
-			cout<<"Match:"<<_msg_->GetFileBodyLen()<<endl;
-			/*
-			 * todo:error handle
-			 * attention;
-			 * */
-			string filepath = 
-				_WriteToFile(_msg_->GetFileBodyLoc(), _msg_->GetFileBodyLen());
-			cout<<"Write to file path:"<<filepath<<endl;
-			string result = g_pic_matcher->match( filepath.c_str(), FEATUREPATH, TRANDIR);
-			cout<<"Match result:"<<result<<endl;
-			string filename;
-			size_t filename_end_pos = result.Find("&&");
-			if(filename_end_pos != string::npos)
+			SearchProtoMessage search_proto_message;
+			if(!search_proto_message.ParseFromString(_proto_buf_ptr_))
 			{
-				filename = result.substr(0, filename_end_pos);
-			}
-			cout<<"Query fileName:"<<filename<<endl;
-			string response = g_db_cache->query(filename.c_str());
-			cout<<"Response:"<<response<<endl;
-			_msg_->ClearFileBody();
-			_msg_->SetFileBody(response.c_str(), response.length());
-			_msg_->SetWriteBuf();
-			boost::asio::async_write(_socket_, 
-					boost::asio::buffer(_msg_->write_buf_,_msg_->write_len_),  
-					boost::bind(&SearchSession::SendbackResult, this, 
-						boost::asio::placeholders::error));
-		}
-		else
-		{
-
-		}
-	}
-
-	void SearchSession::SendbackResult( const boost::system::error_code& error)
-	{
-		if(!error)
-		{
-			cout<<"Send back OK!"<<endl;
+				//解析出错了
+				g_session_manager->Recycle(GetSessionID());
+                return ;
+			}				
+			//获取到picture的length				
+			uint32_t picture_length = search_proto_message.picture_length();
+			//获取到picture的名字
+			_file_name_ = search_proto_message.picture_name();
+			//读取picture的内容
+			boost::asio::async_read(_socket_,
+				boost::asio::buffer(_proto_buf_ptr_,picture_length),
+				boost::bind(&SearchSession::H_MatchPicture, this,
+					boost::asio::placeholders::error));	
+			
 		}
 		else
 		{
@@ -133,7 +65,56 @@ namespace RootServer
 		}
 	}
 
-	string SearchSession::_RandomNum()
+	void SearchSession::H_MatchPicture( const boost::system::error_code& error)
+	{
+		if(!error)
+		{
+			cout<<"Match:"<<endl;
+			/*
+			 * todo:error handle
+			 * attention;
+			 * */
+			string filepath = 
+				_WriteToFile_(_content_buf_ptr_, strlen(_content_buf_ptr_));
+			cout<<"Write to file path:"<<filepath<<endl;
+			string result = g_pic_matcher->match( filepath.c_str(), FEATUREPATH, TRANDIR);
+			cout<<"Match result:"<<result<<endl;
+			string response = g_db_manager->Query(_file_name_.c_str());
+			SearchResultMessage  search_result;
+            search_result.set_picture_name(_file_name_);
+            search_result.set_result_length(response.length());
+            string proto_str_tmp ;
+            search_result.SerializeToString(&proto_str_tmp);
+            string response_msg =
+               Session::FormMessage(proto_str_tmp.length(),SEARCH_REQUEST_RESULT_FROM_NODE,proto_str_tmp,response); 
+			boost::asio::async_write(_socket_,
+				boost::asio::buffer(response_msg,response_msg.length()),
+				boost::bind(&SearchSession::H_AfterSendResult, this,
+					boost::asio::placeholders::error));	
+			
+			
+
+		}
+		else
+		{
+
+		}
+	}
+
+	void SearchSession::H_AfterSendResult( const boost::system::error_code& error)
+	{
+		if(!error)
+		{
+			cout<<"Send back OK!"<<endl;
+            Start();
+		}
+		else
+		{
+			
+		}
+	}
+
+	string SearchSession::_RandomNum_()
 	{
 		int randnum = 0;
 		stringstream rand_num_sstr;
@@ -142,15 +123,15 @@ namespace RootServer
 		return rand_num_sstr.str();
 	}
 
-	string SearchSession::_WriteToFile(char* msg, int len)
+	string SearchSession::_WriteToFile_(char* msg, int len)
 	{
-		string rand_str = _RandomNum();
+		string rand_str = _RandomNum_();
 		string filepath = string(TMP_PATH) + rand_str;
 		cout<<"file path:"<<filepath.c_str()<<endl;
 		int fd = open( filepath.c_str() , O_CREAT | O_RDWR , 0666);
 		if(fd<=0)
 			perror("open error\n");
-		int wnum = write(fd , msg, len);
+		int wnum = ::write(fd , msg, len);
 		if(wnum <=0)
 		{
 			//cout<<"write error"<<endl;

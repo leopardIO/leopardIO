@@ -4,23 +4,25 @@
   > Mail: zbzcsn@qq.com
   > Created Time: Sat 01 Aug 2015 08:52:50 AM UTC
  ************************************************************************/
-//#include "IOServerPool.h"
+//#include "IOServicePool.h"
 //
 #include<iostream>
 #include "RootSession.h"
 #include "DBManager.h"
+#include "IOServicePool.h"
+#include "SessionManager.h"
 #include "../../common/includeopencv/interface.h"
 #include "NodeUtil.h"
 
 
 using namespace std;
-using namespace cjtech::RootSession;
+using namespace NodeServer;
 
 int main(int argn, char** argv)
 {
 	Matcher* g_pic_matcher;
     DBManager* g_db_manager;
-	IOServerPool* g_io_service_pool;
+	IOServicePool* g_io_service_pool;
 	SessionManager* g_session_manager; 
 
 	g_pic_matcher = new Matcher();
@@ -35,7 +37,9 @@ int main(int argn, char** argv)
     g_db_manager = new DBManager();
     g_db_manager->init();
 	
-	g_io_service_pool = new IOServerPool(1);//传入的线程池的大小
+	g_io_service_pool = new IOServicePool(1);//传入的线程池的大小
+	g_io_service_pool.start();
+	g_io_service_pool.join();
 	g_session_manager = new SessionManager();
     RootSession s(6002, 1);
     s.run();

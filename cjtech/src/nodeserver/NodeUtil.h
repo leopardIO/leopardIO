@@ -15,6 +15,6 @@
 #define TRANDIR "../picsource/traindir/"
 #define FEATUREPATH "../picsource/dest/"
 #define INDEXPATH "../picsource/picindex"
-
-
+#define SEARCH_REQUEST 10
+const uint32_t SEARCH_REQUEST_RESULT_FROM_NODE  = 0xa0;
 #endif

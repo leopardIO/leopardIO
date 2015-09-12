@@ -10,9 +10,9 @@
 #include <stdint.h>
 typedef struct  HeadStructMessage
 {
-    uint32_t protolen; 
-    uint32_t proto_type;
-    HeadStructMessage():protolen(0) , proto_type(0){}
+    uint32_t length; 
+    uint32_t type;
+    HeadStructMessage():length(0) , type(0){}
     ~HeadStructMessage(){}
 }__attribute__( ( packed )) HeadStructMessage;
 #endif
