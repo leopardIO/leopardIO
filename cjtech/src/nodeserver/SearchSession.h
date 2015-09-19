@@ -22,13 +22,13 @@
 #define DEBUG 1
 using boost::asio::ip::tcp;  
 extern	Matcher* g_pic_matcher;
-extern  DBManager* g_db_manager;
+extern  NodeServer::DBManager* g_db_manager;
 namespace NodeServer{
 
 	class SearchSession : public  Session 
 	{
 		public:
-			SearchSession( tcp::socket temp_socket, struct HeadStructMessage header);
+			SearchSession( tcp::socket *temp_socket, struct HeadStructMessage header);
 			virtual ~SearchSession();
 			void Start();
             void H_ReadContent(const boost::system::error_code& error) ;

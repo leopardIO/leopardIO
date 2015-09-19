@@ -19,6 +19,8 @@
 #include "RootSession.h"
 #include "IOServicePool.h"
 #include "HeadStructMessage.h"
+#include "SessionManager.h"
+#include "Session.h"
 
 typedef int SOCKET;
 typedef struct sockAddr_in SOCKADDR_IN;
@@ -30,7 +32,6 @@ using std::cin;
 using std::endl;
 using boost::asio::ip::tcp;
 
-extern 	SessionManager* g_session_manager;  
 
 /*************************************************************************
  *
@@ -44,18 +45,19 @@ extern 	SessionManager* g_session_manager;
 
 namespace NodeServer{
 
-	class RootSession
+	class RootSession :public Session
 	{
 	public:
 		RootSession(short port);
 		virtual ~RootSession();
 		void H_Read_Header(const boost::system::error_code& error);
+        void H_New_Session(const boost::system::error_code& error);
+
 		void Run();
 	private:
-		typedef struct  HeadStructMessage Header;
 		tcp::acceptor _acceptor_;
 		tcp::socket *_p_socket_temp_;
-		Header _header_	;
+		struct  HeadStructMessage _header_	;
 		
 	};
 }

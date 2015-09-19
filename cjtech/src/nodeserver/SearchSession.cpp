@@ -4,20 +4,18 @@
 #include "SessionManager.h"
 
 using namespace std;
-extern SessionManager *g_session_manager;
-extern NodeServer::IOServicePool* g_io_service_pool;
 
+extern NodeServer::SessionManager *g_session_manager;
+extern NodeServer::IOServicePool* g_io_service_pool;
+extern NodeServer::SessionManager* g_session_manager; 
 namespace NodeServer
 {
-	SearchSession::SearchSession(tcp::socket temp_socket, struct HeadStructMessage header )
+	SearchSession::SearchSession(tcp::socket *temp_socket, struct HeadStructMessage header )
 		: _socket_(g_io_service_pool->GetIoService()) 
 	{
         _header_ = header;
-        int socketDup = dup(temp_socket.native());
+        int socketDup = dup(temp_socket->native());
         _socket_.assign(boost::asio::ip::tcp::v4(), socketDup);
-
-        
-        
 	}
 	SearchSession::~SearchSession()
 	{

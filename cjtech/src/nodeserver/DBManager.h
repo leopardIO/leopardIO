@@ -19,6 +19,7 @@ using std::endl;
 using std::map;
 using std::string;
 
+namespace NodeServer{
 struct ltstr  
 {  
 	bool operator()(const char* s1, const char* s2) const  
@@ -40,4 +41,5 @@ class DBManager
 		map<const char * ,const char * ,ltstr> _picture_map_;		
 		map<const char * ,const char * ,ltstr>::iterator _iter_;
 };
+}
 #endif

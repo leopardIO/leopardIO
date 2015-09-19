@@ -1,11 +1,3 @@
-/*************************************************************************
-  > File Name: test_rootserver.cpp
-  > Author: cooperz
-  > Mail: zbzcsn@qq.com
-  > Created Time: Sat 01 Aug 2015 08:52:50 AM UTC
- ************************************************************************/
-//#include "IOServicePool.h"
-//
 #include<iostream>
 #include "RootSession.h"
 #include "DBManager.h"
@@ -18,12 +10,17 @@
 using namespace std;
 using namespace NodeServer;
 
+Matcher* g_pic_matcher;
+DBManager* g_db_manager;
+IOServicePool* g_io_service_pool;
+SessionManager* g_session_manager; 
+
 int main(int argn, char** argv)
 {
-	Matcher* g_pic_matcher;
-    DBManager* g_db_manager;
-	IOServicePool* g_io_service_pool;
-	SessionManager* g_session_manager; 
+    if(argn !=1)
+    {
+        cout<< "Do not need parameter " <<argv[1]<<endl;
+    }
 
 	g_pic_matcher = new Matcher();
     if((access (INDEXPATH,F_OK)) == 0)
@@ -38,11 +35,11 @@ int main(int argn, char** argv)
     g_db_manager->init();
 	
 	g_io_service_pool = new IOServicePool(1);//传入的线程池的大小
-	g_io_service_pool.start();
-	g_io_service_pool.join();
+	g_io_service_pool->start();
+	g_io_service_pool->join();
 	g_session_manager = new SessionManager();
-    RootSession s(6002, 1);
-    s.run();
+    RootSession *root_session = g_session_manager->CreateSession<RootSession>(6002);
+    root_session->Run();
     while(true)
     {
         sleep(1000);

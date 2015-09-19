@@ -8,11 +8,11 @@
 #ifndef _HEADSTRUCTMESSAGE_H
 #define _HEADSTRUCTMESSAGE_H
 #include <stdint.h>
-typedef struct  HeadStructMessage
+struct  HeadStructMessage
 {
     uint32_t length; 
     uint32_t type;
     HeadStructMessage():length(0) , type(0){}
     ~HeadStructMessage(){}
-}__attribute__( ( packed )) HeadStructMessage;
+}__attribute__( ( packed )) ;
 #endif
