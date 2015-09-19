@@ -30,6 +30,9 @@ namespace cjtech{
                 void HandleFileBody(const boost::system::error_code& error);
                 void SendbackResult(const boost::system::error_code& error);
                 void PicMatch(const boost::system::error_code& error);
+                void addOutMsg(NodeMessage* msg);
+                void DoWrite(const boost::system::error_code& error);
+                void TrySendMsg();
                 void QueryMqsql(/*  */);
                 void SetMsgBack(/*  */);
             private:

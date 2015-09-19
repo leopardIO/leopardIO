@@ -5,7 +5,7 @@
   > Created Time: Sat 08 Aug 2015 01:39:38 AM UTC
  ************************************************************************/
 #include "NodeSession.h"
-#include<iostream>
+#include <iostream>
 #include "../../common/includeopencv/interface.h"
 #include "NodeMessage.h"
 
@@ -108,8 +108,48 @@ namespace cjtech
             }
             else
             {
-                
+
             }
+        }
+
+        void NodeSession::DoWrite(const boost::system::error_code& error)
+        {
+            int out_que_size = _node_write_buf_.size();
+            while( _node_write_buf_.front()->send_or_not_)
+            {
+                delete _node_write_buf_.front();
+                _node_write_buf_.pop_front();
+            }
+            if( out_que_size>=1)
+            {
+                async_write(_socket_,boost::asio::buffer(
+                            _node_write_buf_.front()->GetOutLoc(),
+                            _node_write_buf_.front()->GetOutLen()),
+                        boost::bind(&NodeSession::DoWrite, this,
+                            boost::asio::placeholders::error ));
+
+                _node_write_buf_.front()->send_or_not_ = true;
+            }
+        }
+
+        void NodeSession::TrySendMsg()
+        {
+            boost::mutex::scoped_lock locker(_mtx_);
+            int out_que_size = _node_write_buf_.size();
+            if(0 < out_que_size){
+                async_write(_socket_,boost::asio::buffer(
+                            _node_write_buf_.front()->GetOutLoc(),
+                            _node_write_buf_.front()->GetOutLen()),
+                        boost::bind(&NodeSession::DoWrite, this,
+                            boost::asio::placeholders::error ));
+                _node_write_buf_.front()->send_or_not_ = true;
+            }
+        }
+
+        void NodeSession::addOutMsg(NodeMessage* out_msg)
+        {
+            boost::mutex::scoped_lock locker(_mtx_);
+            _node_write_buf_.push_back(out_msg);
         }
 
         string NodeSession::_RandomNum()
