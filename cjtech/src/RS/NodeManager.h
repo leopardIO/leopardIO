@@ -13,6 +13,8 @@
 #include <vector>
 #include <map>
 #include <boost/shared_ptr.hpp>
+#include "NodeSession.h"
+#include "IOServerPool.h"
 
 namespace cjtech
 {
@@ -29,18 +31,24 @@ namespace cjtech
         class NodeManager
         {
             public:
-                NodeManager();
+                NodeManager(int threadnum);
                 virtual ~NodeManager();
                 void UpdateNodeResource( const char* node_ip, const char* port,
                         uint32_t cpu, uint32_t net_io);
-                void GetNodeByRotate( char** node_ip, char ** node_port);
+                NodeSession* GetNodeByRotate( );
                 void GetNodeByResource( char** node_ip, char** node_port);
+                void ConnectNodeServer(char* ip, char* port);
+                void run();
             private:
+                IOServerPool io_service_pool_;
                 /*遍历此数据结构*/
                 std::vector<boost::shared_ptr<NodeInfo>> node_list_;
                 /**/
                 std::map< std::string, std::map< std::string , 
                     boost::shared_ptr<NodeInfo>>> node_info_map;
+                std::vector<NodeSession*> node_conn_list_;
+                uint32_t node_num_;
+                uint32_t last_node_server_pos_;
         };
     }
 }

@@ -40,8 +40,9 @@ namespace cjtech{
                 void handle_accept(ClientSession* new_session, 
                         const boost::system::error_code& error);
                 void run();
-            private:
+            public:
                 IOServerPool io_service_pool_;
+            private:
                 tcp::acceptor acceptor_;
         };
     }

@@ -8,7 +8,8 @@
 #ifndef _ROOTMESSAGE_H
 #define _ROOTMESSAGE_H
 
-#include "ProInnerMessage.pb.h"
+#include "SearchProtoMessage.pb.h"
+#include "SearchResultMessage.pb.h"
 
 /*************************************************************************
  *
@@ -42,10 +43,15 @@ namespace cjtech
                 bool InnerMsgAlloc();
                 bool ParserProtoBuf();
                 bool FileAlloc();
+                void SetPB2Node(std::string picture_name,std::string picture_length,
+                        long int start_time, long int end_time);
+                void SetBufMsg2Node();
+                void SetTaskID(int);
             public:
-                leopardIO::ProInnerMessage inner_msg;
-                char* write_buf_;
-                size_t write_len_;
+                ::SearchResultMessage inner_msg;//从node节点读出来的数据
+                ::SearchProtoMessage out_msg;//从client接过来的数据
+                char* write_buf_;//只填充协议外内容
+                size_t write_len_;//只负责协议外内容大小
                 bool send_or_not_;
             private:
                 char* _inner_msg_c_;

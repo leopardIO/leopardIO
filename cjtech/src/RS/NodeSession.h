@@ -21,10 +21,11 @@ namespace cjtech{
         class NodeSession
         {
             public:
-                NodeSession(boost::asio::io_service& io_service);
+                NodeSession(boost::asio::io_service& io_service,
+                        tcp::resolver::iterator endpoint_iterator);
                 virtual ~NodeSession();
                 tcp::socket& GetSocket();
-                void Start();
+                void ConnectAfter(const boost::system::error_code& error);
                 void HandleProtobufHeaderLen(const boost::system::error_code& error);
                 void HandleProtobufBody(const boost::system::error_code& error);
                 void HandleFileBody(const boost::system::error_code& error);

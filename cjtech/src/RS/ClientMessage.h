@@ -62,6 +62,27 @@ namespace cjtech
                 {
                     return _json_body_;
                 }
+                std::string findInJsonMap(std::string key)
+                {
+                    auto it = _json_map_.find(key);
+                    if(it!=_json_map_.end())
+                        return it->second;
+                    else
+                        return "";
+                }
+                std::string findInJsonMap(const char* keyc)
+                {
+                    std::string key(keyc);
+                    auto it = _json_map_.find(key);
+                    if(it!=_json_map_.end())
+                        return it->second;
+                    else
+                        return "";
+                }
+                void ClearFileLoc()
+                {
+                    _file_c_ = NULL;
+                }
                 bool ParserJson();
                 bool ParserProtoBuf();
                 void TranJsonLenCharToInt();
@@ -70,6 +91,7 @@ namespace cjtech
                 void TranFileLenToInt();
             public:
                 bool send_or_not_;
+                char* out_buf_;
             private:
                 enum { header_len = 12 };
                 enum { max_body_len = 10240 };

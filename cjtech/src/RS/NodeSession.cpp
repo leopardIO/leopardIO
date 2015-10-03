@@ -8,6 +8,7 @@
 #include <iostream>
 #include "../../common/includeopencv/interface.h"
 #include "NodeMessage.h"
+#include "SessionService.h"
 
 using namespace std;
 
@@ -15,10 +16,13 @@ namespace cjtech
 {
     namespace RootServer
     {
-        NodeSession::NodeSession(boost::asio::io_service& io_service):
+        NodeSession::NodeSession(boost::asio::io_service& io_service,
+                tcp::resolver::iterator endpoint_iterator):
             _socket_(io_service)
         {
-
+            boost::asio::async_connect(_socket_, endpoint_iterator,
+                     boost::bind(&NodeSession::ConnectAfter, this,
+                         boost::asio::placeholders::error));
         }
 
         NodeSession::~NodeSession()
@@ -31,7 +35,7 @@ namespace cjtech
             return _socket_;
         }
 
-        void NodeSession::Start()
+        void NodeSession::ConnectAfter(const boost::system::error_code& error)
         {
 #ifdef DEBUG
             cout<<"rootsession::start"<<endl;
@@ -108,7 +112,8 @@ namespace cjtech
             }
             else
             {
-
+                SessionService* g_session_service = SessionService::getInstance(); 
+                g_session_service->NodeHandler(this, _on_recv_msg_);
             }
         }
 

@@ -95,6 +95,7 @@ namespace cjtech{
                 /*todo:handle file body
                  *g_ClientSession_manager(_on_recv_msg_);
                  */
+                SessionService* g_session_service = SessionService::getInstance();
                 g_session_service->RequsetHandler(this, this->_on_recv_msg_);
                 LOG(INFO) <<"my first info";
                 std::cout<<"ClientSession::file body recved"<<std::endl;

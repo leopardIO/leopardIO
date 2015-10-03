@@ -23,7 +23,7 @@ struct A
     private:
         int aa_;
 };
-
+/*
 int main()
 {
     int a = 3;
@@ -31,3 +31,4 @@ int main()
     A c = A(b);
     return 1;
 }
+*/

@@ -70,7 +70,7 @@ namespace cjtech
             if(_inner_msg_header_len_>=1024*1024)
                 return false;
             _inner_msg_c_ = (char*)malloc(sizeof(char)*_inner_msg_header_len_);
-            _file_body_len_ = inner_msg.content_length();
+            _file_body_len_ = inner_msg.result_length();
             //return inner_msg.ParseFromArray( _inner_msg_c_, _inner_msg_header_len_);
             return true;
         }
@@ -84,7 +84,7 @@ namespace cjtech
         {
             if(!ParserProtoBuf())
                 return false;
-            _file_body_len_ = inner_msg.content_length();
+            _file_body_len_ = inner_msg.result_length();
             _file_body_c_ = (char*)malloc(sizeof(char)*_file_body_len_);
             return true;
         }
@@ -118,6 +118,29 @@ namespace cjtech
             buf_ptr = buf_ptr+protofbuf_len;
             memcpy( buf_ptr, _file_body_c_, _file_body_len_);
             cout<<"write_len_"<<write_len_<<endl;
+        }
+
+        void NodeMessage::SetBufMsg2Node()
+        {
+            size_t protofbuf_len = out_msg.ByteSize();
+            _out_len_ = sizeof(size_t) + _file_body_len_ + protofbuf_len;
+            _data_out_ = (char*)malloc(_out_len_);
+            char* buf_ptr = write_buf_;
+            memcpy( buf_ptr, &_out_len_, sizeof(_out_len_));
+            buf_ptr = buf_ptr+sizeof(_out_len_);
+            out_msg.SerializeToArray( buf_ptr, protofbuf_len);
+            buf_ptr = buf_ptr+protofbuf_len; 
+            memcpy( buf_ptr, write_buf_, write_len_);
+        }
+
+        void NodeMessage::SetPB2Node(std::string picture_name,std::string picture_length,
+                long int start_time, long int end_time)
+        {
+        }
+
+        void NodeMessage::SetTaskID(int id)
+        {
+            out_msg.set_task_id(id);
         }
     }
 }
