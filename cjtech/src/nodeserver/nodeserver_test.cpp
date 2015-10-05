@@ -36,13 +36,13 @@ int main(int argn, char** argv)
 	
 	g_io_service_pool = new IOServicePool(1);//传入的线程池的大小
 	g_io_service_pool->start();
-	g_io_service_pool->join();
+	//g_io_service_pool->join();
 	g_session_manager = new SessionManager();
     RootSession *root_session = g_session_manager->CreateSession<RootSession>(6002);
     root_session->Run();
-    while(true)
+    /*while(true)
     {
         sleep(1000);
-    }
+    }*/
     return 0;
 }
