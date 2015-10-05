@@ -97,7 +97,7 @@ namespace cjtech{
                  */
                 SessionService* g_session_service = SessionService::getInstance();
                 g_session_service->RequsetHandler(this, this->_on_recv_msg_);
-                LOG(INFO) <<"my first info";
+                //LOG(INFO) <<"my first info";
                 std::cout<<"ClientSession::file body recved"<<std::endl;
                 std::cout<<_on_recv_msg_->GetJsonString()<<std::endl;
                 _on_recv_msg_ = NULL;

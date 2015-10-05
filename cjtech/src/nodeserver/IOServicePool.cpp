@@ -6,7 +6,7 @@ using boost::asio::ip::tcp;
 namespace NodeServer
 {
     IOServicePool::IOServicePool(size_t pool_size)
-        : _threads_(0)
+        : _threads_(0), _next_io_service_(0)
     { 
         for (std::size_t i = 0; i < pool_size; ++ i)
         {
@@ -46,6 +46,7 @@ namespace NodeServer
     boost::asio::io_service& IOServicePool::GetIoService()
     {
         boost::mutex::scoped_lock lock(_mtx_);
+        cout<<"next io service : "<<_next_io_service_<<endl;
         boost::asio::io_service& io_service = *_io_services_[_next_io_service_];
         ++ _next_io_service_;
         if (_next_io_service_ == _io_services_.size())

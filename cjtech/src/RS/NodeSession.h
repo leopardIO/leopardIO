@@ -12,6 +12,8 @@
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
 #include <boost/thread.hpp>
+#include <queue>
+#include "Queue.h"
 
 using boost::asio::ip::tcp;  
 
@@ -33,7 +35,7 @@ namespace cjtech{
                 void PicMatch(const boost::system::error_code& error);
                 void addOutMsg(NodeMessage* msg);
                 void DoWrite(const boost::system::error_code& error);
-                void TrySendMsg();
+                void TrySendMsg(NodeMessage* msg);
                 void QueryMqsql(/*  */);
                 void SetMsgBack(/*  */);
             private:
@@ -45,7 +47,7 @@ namespace cjtech{
                 boost::mutex _mtx_;
                 NodeMessage* _on_recv_msg_;
                 tcp::socket _socket_;
-                std::deque<NodeMessage*> _node_write_buf_;
+                std::queue<NodeMessage*> _node_write_buf_;
         };
     }
 }

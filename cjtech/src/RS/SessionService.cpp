@@ -31,9 +31,8 @@ namespace cjtech
         }
 
         SessionService::SessionService()
-            :node_manager_(1)
         {
-
+            node_manager_ = new NodeManager(1);
         }
         
         SessionService::~SessionService()
@@ -51,8 +50,8 @@ namespace cjtech
             _data_switcher_.Json2PB( req_msg, node_msg);
             node_msg->SetTaskID(taskid);
             node_msg->SetBufMsg2Node();
-            NodeSession* temp_node_session = node_manager_.GetNodeByRotate();
-            temp_node_session->addOutMsg(node_msg);
+            NodeSession* temp_node_session = node_manager_->GetNodeByRotate();
+            temp_node_session->TrySendMsg(node_msg);
             _taskid_clises_[taskid] = cli_session;
             _taskid_ndeses_[taskid] = temp_node_session;
         }
@@ -65,6 +64,11 @@ namespace cjtech
             ClientMessage* cli_msg = new ClientMessage();
             _data_switcher_.PB2Json( req_msg, cli_msg);
             cli_session->add_out_msg( cli_msg);
+        }
+        
+        void SessionService::Run()
+        {
+            node_manager_->run();
         }
     }
 }

@@ -59,7 +59,7 @@ namespace cjtech
                 std::size_t _file_body_len_;
                 std::size_t _inner_msg_header_len_;
                 enum{ _proto_len_ = sizeof(_inner_msg_header_len_)};
-                std::size_t _out_len_;
+                uint32_t _out_len_;
                 char* _data_out_;
         };
     }

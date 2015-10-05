@@ -49,7 +49,7 @@ namespace cjtech{
             printf("child thread lwpid = %u\n", syscall(SYS_gettid));
             printf("child thread tid = %u\n", pthread_self()); 
             io_service_pool_.start();
-            io_service_pool_.join();
+            //io_service_pool_.join();
         }
     }
 }

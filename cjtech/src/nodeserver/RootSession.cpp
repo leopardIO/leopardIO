@@ -23,6 +23,7 @@ namespace NodeServer
 	}
 	void RootSession::Run()
 	{
+        cout<<"root session run"<<endl;
 		_p_socket_temp_ = new tcp::socket(g_io_service_pool->GetIoService());
 		_acceptor_.async_accept(*_p_socket_temp_,
 				boost::bind(&RootSession::H_Read_Header, this,  
@@ -33,6 +34,7 @@ namespace NodeServer
 		if (!error)
 		{
 		//async_read 保证将数据读取完毕后才会调用回调函数
+            cout<<"sizeof head strutct size"<<sizeof(struct  HeadStructMessage)<<endl;
 			boost::asio::async_read(*_p_socket_temp_,
 				boost::asio::buffer(&_header_,sizeof(struct  HeadStructMessage)),
 				boost::bind(&RootSession::H_New_Session, this,
@@ -55,6 +57,7 @@ namespace NodeServer
 			switch(_header_.type)
 			{
 				case SEARCH_REQUEST://到来的是查询请求
+                    cout<<"search request recved"<<endl;
 					g_session_manager->CreateSession<SearchSession>(_p_socket_temp_ , _header_);
 
 				break;				

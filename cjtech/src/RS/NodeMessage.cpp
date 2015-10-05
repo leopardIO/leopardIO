@@ -122,15 +122,27 @@ namespace cjtech
 
         void NodeMessage::SetBufMsg2Node()
         {
+            uint32_t cmd = 0xa0;
             size_t protofbuf_len = out_msg.ByteSize();
-            _out_len_ = sizeof(size_t) + _file_body_len_ + protofbuf_len;
+            cout<<" protofbuf_len ::"<< protofbuf_len<<endl;
+            cout<<" _file_body_len_ ::"<< write_len_ <<endl;
+            cout<<" sizeof(size_t) ::"<< sizeof(size_t) <<endl;
+            _out_len_ = 2*sizeof(uint32_t) + write_len_ + protofbuf_len;
+            cout<<" _out_len_ ::"<<_out_len_<<endl;
             _data_out_ = (char*)malloc(_out_len_);
-            char* buf_ptr = write_buf_;
-            memcpy( buf_ptr, &_out_len_, sizeof(_out_len_));
-            buf_ptr = buf_ptr+sizeof(_out_len_);
+            //memset(_data_out_, 'a', sizeof(char)*_out_len_);
+            if(_data_out_ == NULL)
+                cout<<"data out is NULL"<<endl;
+            cout<<"before _data_out_ ::"<<_data_out_<<endl;
+            char* buf_ptr = _data_out_;
+            memcpy( buf_ptr, &_out_len_, sizeof(uint32_t));
+            buf_ptr = buf_ptr+sizeof(uint32_t);
+            memcpy( buf_ptr, &cmd, sizeof(uint32_t));
+            buf_ptr = buf_ptr+sizeof(uint32_t);
             out_msg.SerializeToArray( buf_ptr, protofbuf_len);
             buf_ptr = buf_ptr+protofbuf_len; 
             memcpy( buf_ptr, write_buf_, write_len_);
+            cout<<" _data_out_ ::"<<_data_out_<<endl;
         }
 
         void NodeMessage::SetPB2Node(std::string picture_name,std::string picture_length,

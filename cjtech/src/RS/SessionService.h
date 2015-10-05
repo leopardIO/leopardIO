@@ -32,6 +32,7 @@ namespace cjtech
                         ClientMessage* req_msg); 
                 void NodeHandler( NodeSession* node_session,
                         NodeMessage* req_msg);
+                void Run();
             private:
                 SessionService();
                 static SessionService* _pSessionService_;
@@ -40,7 +41,7 @@ namespace cjtech
                 std::map< uint64_t, ClientSession*> _taskid_clises_;
                 std::map< uint64_t, NodeSession*> _taskid_ndeses_;
                 DataFromatSwitch _data_switcher_;
-                NodeManager node_manager_;
+                NodeManager* node_manager_;
         };
     }
 }

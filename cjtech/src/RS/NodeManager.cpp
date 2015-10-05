@@ -23,7 +23,9 @@ namespace cjtech
         NodeManager::NodeManager(int threadnum)
             :io_service_pool_(threadnum)
         {
-
+            char* ip = "127.0.0.1";
+            char* port= "6002";
+            ConnectNodeServer( ip, port);
         }
 
         NodeManager::~NodeManager()
@@ -43,6 +45,7 @@ namespace cjtech
 
         void NodeManager::ConnectNodeServer(char* ip, char* port)
         {
+            cout<<"connect to ip:"<<ip<<"port :"<<port<<endl;
             boost::asio::io_service& io_service = \
                io_service_pool_.get_io_service();
 

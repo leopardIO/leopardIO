@@ -32,6 +32,8 @@ namespace cjtech{
                         gettimeofday(&tv_begin, NULL);
                         STDSTR pic_name = json_data->findInJsonMap("picture_name");
                         STDSTR pic_len = json_data->findInJsonMap("picture_length");
+                        std::cout<<"picture_name : "<<pic_name<<std::endl;
+                        std::cout<<"picture_len : "<<pic_len<<std::endl;
                         long int start_time = tv_begin.tv_sec;
                         long int end_time = 0;
                         pb_data->out_msg.set_picture_name(pic_name);

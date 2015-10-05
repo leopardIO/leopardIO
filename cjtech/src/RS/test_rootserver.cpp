@@ -27,9 +27,10 @@ int main(int argn, char** argv)
     printf("child thread lwpid = %u\n", syscall(SYS_gettid));
     printf("child thread tid = %u\n", pthread_self()); 
         
-    g_session_service = SessionService::getInstance();
-    RootServer s(6002, 1);
+    RootServer s(6003, 1);
     s.run();
+    g_session_service = SessionService::getInstance();
+    g_session_service->Run();
     while(true)
     {
         sleep(1000);
