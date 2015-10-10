@@ -32,10 +32,13 @@ void protobuf_AssignDesc_SearchResultMessage_2eproto() {
       "SearchResultMessage.proto");
   GOOGLE_CHECK(file != NULL);
   SearchResultMessage_descriptor_ = file->message_type(0);
-  static const int SearchResultMessage_offsets_[3] = {
+  static const int SearchResultMessage_offsets_[6] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SearchResultMessage, picture_name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SearchResultMessage, result_length_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SearchResultMessage, task_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SearchResultMessage, mj_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SearchResultMessage, trackerurl_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SearchResultMessage, status_),
   };
   SearchResultMessage_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -78,9 +81,11 @@ void protobuf_AddDesc_SearchResultMessage_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\031SearchResultMessage.proto\"S\n\023SearchRes"
-    "ultMessage\022\024\n\014picture_name\030\001 \002(\t\022\025\n\rresu"
-    "lt_length\030\002 \002(\r\022\017\n\007task_id\030\003 \002(\r", 112);
+    "\n\031SearchResultMessage.proto\"\206\001\n\023SearchRe"
+    "sultMessage\022\024\n\014picture_name\030\001 \002(\t\022\025\n\rres"
+    "ult_length\030\002 \002(\r\022\017\n\007task_id\030\003 \002(\r\022\r\n\005mj_"
+    "id\030\004 \002(\t\022\022\n\ntrackerUrl\030\005 \002(\t\022\016\n\006status\030\006"
+    " \002(\r", 164);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SearchResultMessage.proto", &protobuf_RegisterTypes);
   SearchResultMessage::default_instance_ = new SearchResultMessage();
@@ -101,6 +106,9 @@ struct StaticDescriptorInitializer_SearchResultMessage_2eproto {
 const int SearchResultMessage::kPictureNameFieldNumber;
 const int SearchResultMessage::kResultLengthFieldNumber;
 const int SearchResultMessage::kTaskIdFieldNumber;
+const int SearchResultMessage::kMjIdFieldNumber;
+const int SearchResultMessage::kTrackerUrlFieldNumber;
+const int SearchResultMessage::kStatusFieldNumber;
 #endif  // !_MSC_VER
 
 SearchResultMessage::SearchResultMessage()
@@ -122,6 +130,9 @@ void SearchResultMessage::SharedCtor() {
   picture_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   result_length_ = 0u;
   task_id_ = 0u;
+  mj_id_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  trackerurl_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  status_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -132,6 +143,12 @@ SearchResultMessage::~SearchResultMessage() {
 void SearchResultMessage::SharedDtor() {
   if (picture_name_ != &::google::protobuf::internal::kEmptyString) {
     delete picture_name_;
+  }
+  if (mj_id_ != &::google::protobuf::internal::kEmptyString) {
+    delete mj_id_;
+  }
+  if (trackerurl_ != &::google::protobuf::internal::kEmptyString) {
+    delete trackerurl_;
   }
   if (this != default_instance_) {
   }
@@ -167,6 +184,17 @@ void SearchResultMessage::Clear() {
     }
     result_length_ = 0u;
     task_id_ = 0u;
+    if (has_mj_id()) {
+      if (mj_id_ != &::google::protobuf::internal::kEmptyString) {
+        mj_id_->clear();
+      }
+    }
+    if (has_trackerurl()) {
+      if (trackerurl_ != &::google::protobuf::internal::kEmptyString) {
+        trackerurl_->clear();
+      }
+    }
+    status_ = 0u;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -222,6 +250,56 @@ bool SearchResultMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(34)) goto parse_mj_id;
+        break;
+      }
+
+      // required string mj_id = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_mj_id:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_mj_id()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+            this->mj_id().data(), this->mj_id().length(),
+            ::google::protobuf::internal::WireFormat::PARSE);
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(42)) goto parse_trackerUrl;
+        break;
+      }
+
+      // required string trackerUrl = 5;
+      case 5: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_trackerUrl:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_trackerurl()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+            this->trackerurl().data(), this->trackerurl().length(),
+            ::google::protobuf::internal::WireFormat::PARSE);
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(48)) goto parse_status;
+        break;
+      }
+
+      // required uint32 status = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_status:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &status_)));
+          set_has_status();
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -263,6 +341,29 @@ void SearchResultMessage::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->task_id(), output);
   }
 
+  // required string mj_id = 4;
+  if (has_mj_id()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->mj_id().data(), this->mj_id().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      4, this->mj_id(), output);
+  }
+
+  // required string trackerUrl = 5;
+  if (has_trackerurl()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->trackerurl().data(), this->trackerurl().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      5, this->trackerurl(), output);
+  }
+
+  // required uint32 status = 6;
+  if (has_status()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->status(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -289,6 +390,31 @@ void SearchResultMessage::SerializeWithCachedSizes(
   // required uint32 task_id = 3;
   if (has_task_id()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->task_id(), target);
+  }
+
+  // required string mj_id = 4;
+  if (has_mj_id()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->mj_id().data(), this->mj_id().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->mj_id(), target);
+  }
+
+  // required string trackerUrl = 5;
+  if (has_trackerurl()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->trackerurl().data(), this->trackerurl().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->trackerurl(), target);
+  }
+
+  // required uint32 status = 6;
+  if (has_status()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->status(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -321,6 +447,27 @@ int SearchResultMessage::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->task_id());
+    }
+
+    // required string mj_id = 4;
+    if (has_mj_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->mj_id());
+    }
+
+    // required string trackerUrl = 5;
+    if (has_trackerurl()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->trackerurl());
+    }
+
+    // required uint32 status = 6;
+    if (has_status()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->status());
     }
 
   }
@@ -359,6 +506,15 @@ void SearchResultMessage::MergeFrom(const SearchResultMessage& from) {
     if (from.has_task_id()) {
       set_task_id(from.task_id());
     }
+    if (from.has_mj_id()) {
+      set_mj_id(from.mj_id());
+    }
+    if (from.has_trackerurl()) {
+      set_trackerurl(from.trackerurl());
+    }
+    if (from.has_status()) {
+      set_status(from.status());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -376,7 +532,7 @@ void SearchResultMessage::CopyFrom(const SearchResultMessage& from) {
 }
 
 bool SearchResultMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
 
   return true;
 }
@@ -386,6 +542,9 @@ void SearchResultMessage::Swap(SearchResultMessage* other) {
     std::swap(picture_name_, other->picture_name_);
     std::swap(result_length_, other->result_length_);
     std::swap(task_id_, other->task_id_);
+    std::swap(mj_id_, other->mj_id_);
+    std::swap(trackerurl_, other->trackerurl_);
+    std::swap(status_, other->status_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

@@ -24,6 +24,7 @@ namespace NodeServer{
 
     struct Picture
     {
+        string pic_name_;
         int picture_id_;
         int vedio_id_;
         string web_url_;
@@ -46,16 +47,18 @@ namespace NodeServer{
     class DBManager
     {
         public :
+            string GetMJID(int pic_id);
+            int GetPicID(char* match_name);
             const char* Query(const char * name);
             void init(	const char * sql_host_name = "localhost",
                     const char * sql_user_name = "root",
                     const char * sql_passwd = "1314159" ,
-                    const char * db_name = "picdb");
+                    const char * db_name = "mjdb");
 
         private:
             map<const char * ,const char * ,ltstr> _picture_map_;		
             map<const char * ,const char * ,ltstr>::iterator _iter_;
-            map<int , struct Picture> _pic_struct_map_;
+            map<char* , struct Picture> _pic_struct_map_;
             map<int , struct MJproduct> _mj_struct_map_;
     };
 }
