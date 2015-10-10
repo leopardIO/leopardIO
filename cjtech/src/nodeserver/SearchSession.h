@@ -32,7 +32,9 @@ namespace NodeServer{
 			virtual ~SearchSession();
 			void Start();
             void H_ReadContent(const boost::system::error_code& error) ;
-            void H_MatchPicture( const boost::system::error_code& error); 
+            void H_MatchPicture( const boost::system::error_code& error,
+                    uint32_t task_id,
+                    uint32_t picture_len); 
 			void H_AfterSendResult(const boost::system::error_code& error);
 			void PicMatch(const boost::system::error_code& error);
 

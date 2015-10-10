@@ -96,12 +96,17 @@ class SearchProtoMessage : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 picture_length() const;
   inline void set_picture_length(::google::protobuf::uint32 value);
 
-  // required uint32 picture_name = 2;
+  // required string picture_name = 2;
   inline bool has_picture_name() const;
   inline void clear_picture_name();
   static const int kPictureNameFieldNumber = 2;
-  inline ::google::protobuf::uint32 picture_name() const;
-  inline void set_picture_name(::google::protobuf::uint32 value);
+  inline const ::std::string& picture_name() const;
+  inline void set_picture_name(const ::std::string& value);
+  inline void set_picture_name(const char* value);
+  inline void set_picture_name(const char* value, size_t size);
+  inline ::std::string* mutable_picture_name();
+  inline ::std::string* release_picture_name();
+  inline void set_allocated_picture_name(::std::string* picture_name);
 
   // required float start_time = 3;
   inline bool has_start_time() const;
@@ -117,6 +122,13 @@ class SearchProtoMessage : public ::google::protobuf::Message {
   inline float end_time() const;
   inline void set_end_time(float value);
 
+  // required uint32 task_id = 5;
+  inline bool has_task_id() const;
+  inline void clear_task_id();
+  static const int kTaskIdFieldNumber = 5;
+  inline ::google::protobuf::uint32 task_id() const;
+  inline void set_task_id(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:SearchProtoMessage)
  private:
   inline void set_has_picture_length();
@@ -127,16 +139,19 @@ class SearchProtoMessage : public ::google::protobuf::Message {
   inline void clear_has_start_time();
   inline void set_has_end_time();
   inline void clear_has_end_time();
+  inline void set_has_task_id();
+  inline void clear_has_task_id();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
+  ::std::string* picture_name_;
   ::google::protobuf::uint32 picture_length_;
-  ::google::protobuf::uint32 picture_name_;
   float start_time_;
   float end_time_;
+  ::google::protobuf::uint32 task_id_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   friend void  protobuf_AddDesc_SearchProtoMessage_2eproto();
   friend void protobuf_AssignDesc_SearchProtoMessage_2eproto();
@@ -174,7 +189,7 @@ inline void SearchProtoMessage::set_picture_length(::google::protobuf::uint32 va
   picture_length_ = value;
 }
 
-// required uint32 picture_name = 2;
+// required string picture_name = 2;
 inline bool SearchProtoMessage::has_picture_name() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -185,15 +200,63 @@ inline void SearchProtoMessage::clear_has_picture_name() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void SearchProtoMessage::clear_picture_name() {
-  picture_name_ = 0u;
+  if (picture_name_ != &::google::protobuf::internal::kEmptyString) {
+    picture_name_->clear();
+  }
   clear_has_picture_name();
 }
-inline ::google::protobuf::uint32 SearchProtoMessage::picture_name() const {
+inline const ::std::string& SearchProtoMessage::picture_name() const {
+  return *picture_name_;
+}
+inline void SearchProtoMessage::set_picture_name(const ::std::string& value) {
+  set_has_picture_name();
+  if (picture_name_ == &::google::protobuf::internal::kEmptyString) {
+    picture_name_ = new ::std::string;
+  }
+  picture_name_->assign(value);
+}
+inline void SearchProtoMessage::set_picture_name(const char* value) {
+  set_has_picture_name();
+  if (picture_name_ == &::google::protobuf::internal::kEmptyString) {
+    picture_name_ = new ::std::string;
+  }
+  picture_name_->assign(value);
+}
+inline void SearchProtoMessage::set_picture_name(const char* value, size_t size) {
+  set_has_picture_name();
+  if (picture_name_ == &::google::protobuf::internal::kEmptyString) {
+    picture_name_ = new ::std::string;
+  }
+  picture_name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* SearchProtoMessage::mutable_picture_name() {
+  set_has_picture_name();
+  if (picture_name_ == &::google::protobuf::internal::kEmptyString) {
+    picture_name_ = new ::std::string;
+  }
   return picture_name_;
 }
-inline void SearchProtoMessage::set_picture_name(::google::protobuf::uint32 value) {
-  set_has_picture_name();
-  picture_name_ = value;
+inline ::std::string* SearchProtoMessage::release_picture_name() {
+  clear_has_picture_name();
+  if (picture_name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = picture_name_;
+    picture_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void SearchProtoMessage::set_allocated_picture_name(::std::string* picture_name) {
+  if (picture_name_ != &::google::protobuf::internal::kEmptyString) {
+    delete picture_name_;
+  }
+  if (picture_name) {
+    set_has_picture_name();
+    picture_name_ = picture_name;
+  } else {
+    clear_has_picture_name();
+    picture_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
 }
 
 // required float start_time = 3;
@@ -238,6 +301,28 @@ inline float SearchProtoMessage::end_time() const {
 inline void SearchProtoMessage::set_end_time(float value) {
   set_has_end_time();
   end_time_ = value;
+}
+
+// required uint32 task_id = 5;
+inline bool SearchProtoMessage::has_task_id() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void SearchProtoMessage::set_has_task_id() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void SearchProtoMessage::clear_has_task_id() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void SearchProtoMessage::clear_task_id() {
+  task_id_ = 0u;
+  clear_has_task_id();
+}
+inline ::google::protobuf::uint32 SearchProtoMessage::task_id() const {
+  return task_id_;
+}
+inline void SearchProtoMessage::set_task_id(::google::protobuf::uint32 value) {
+  set_has_task_id();
+  task_id_ = value;
 }
 
 

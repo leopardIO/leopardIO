@@ -108,20 +108,30 @@ class SearchResultMessage : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 result_length() const;
   inline void set_result_length(::google::protobuf::uint32 value);
 
+  // required uint32 task_id = 3;
+  inline bool has_task_id() const;
+  inline void clear_task_id();
+  static const int kTaskIdFieldNumber = 3;
+  inline ::google::protobuf::uint32 task_id() const;
+  inline void set_task_id(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:SearchResultMessage)
  private:
   inline void set_has_picture_name();
   inline void clear_has_picture_name();
   inline void set_has_result_length();
   inline void clear_has_result_length();
+  inline void set_has_task_id();
+  inline void clear_has_task_id();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::std::string* picture_name_;
   ::google::protobuf::uint32 result_length_;
+  ::google::protobuf::uint32 task_id_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
 
   friend void  protobuf_AddDesc_SearchResultMessage_2eproto();
   friend void protobuf_AssignDesc_SearchResultMessage_2eproto();
@@ -227,6 +237,28 @@ inline ::google::protobuf::uint32 SearchResultMessage::result_length() const {
 inline void SearchResultMessage::set_result_length(::google::protobuf::uint32 value) {
   set_has_result_length();
   result_length_ = value;
+}
+
+// required uint32 task_id = 3;
+inline bool SearchResultMessage::has_task_id() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void SearchResultMessage::set_has_task_id() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void SearchResultMessage::clear_has_task_id() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void SearchResultMessage::clear_task_id() {
+  task_id_ = 0u;
+  clear_has_task_id();
+}
+inline ::google::protobuf::uint32 SearchResultMessage::task_id() const {
+  return task_id_;
+}
+inline void SearchResultMessage::set_task_id(::google::protobuf::uint32 value) {
+  set_has_task_id();
+  task_id_ = value;
 }
 
 

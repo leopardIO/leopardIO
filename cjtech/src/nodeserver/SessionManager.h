@@ -62,6 +62,7 @@ namespace NodeServer
     {
         T* session;
         session = new T( temp_socket , header);
+        session->Start();
         if ( session != NULL )
         {
             Add( session );
