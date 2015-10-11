@@ -14,30 +14,46 @@ namespace NodeServer
             fprintf(stderr, "error: %s",mysql_error(&mysql)); 
             cout<<"127.0.0.1 connect error!"<<endl; //#最后要改成是log格式
         }
-        string str = "select name, url, id, vedio_id, keepword1 from picture;";
+        string str = "select name, url, id, video_id, keepword1 from picture;";
         mysql_query(&mysql, str.c_str());
         result = mysql_store_result(&mysql);
         MYSQL_ROW row = NULL;
         row = mysql_fetch_row(result);
         while(NULL != row)
         {
-            if(row[1] == NULL)
-                _picture_map_[row[0]] = "NOT FOUND";
+            if(row[0] == NULL || row[1] == NULL)
+            {
+                row = mysql_fetch_row(result);
+                continue;
+            }
             else
-                cout<<"key : "<<row[0]<<" value : "<<row[1]<<"\" get "<<endl;// for test 
-            _picture_map_[row[0]] = row[1];
-
+            {
+                cout<<"key : "<<row[0]<<" value : "<<row[1]<<" get "<<endl;// for test 
+                _picture_map_[row[0]] = row[1];
+            }
             struct Picture pic_struct;
-            pic_struct.picture_id_ = atoi(row[2]);
-            pic_struct.vedio_id_ = atoi(row[3]);
-            pic_struct.web_url_ = row[4];
-            _pic_struct_map_[pic_struct.picture_id_] = pic_struct;
+            pic_struct.pic_name_ = row[0];
+            if(row[2] != NULL)
+            {
+                pic_struct.picture_id_ = atoi(row[2]);
+            }
+            else pic_struct.picture_id_ = -1;
+            if(row[3] != NULL)
+            {
+                pic_struct.vedio_id_ = atoi(row[3]);
+            }
+            else pic_struct.vedio_id_ = -1;
+            if(row[4] != NULL)
+            {
+                pic_struct.web_url_ = row[4] ;
+            }
+            else 
+                pic_struct.web_url_.clear();
+            _pic_struct_map_[row[0]] = pic_struct;
             row = mysql_fetch_row(result);
         }
         mysql_close(&mysql);	
         cout<<"DB get success !"<<endl;//最后要改成log
-
-
         MYSQL mysql_two;
         MYSQL_RES *result_two = NULL;
         mysql_init(&mysql_two);
@@ -54,12 +70,31 @@ namespace NodeServer
         row2 = mysql_fetch_row(result_two);
         while(NULL != row2)
         {
-            int pic_id = atoi(row[1]);
+            int pic_id = 0;
+            if(row2[1] != NULL)
+            {
+                pic_id = atoi(row2[1]);
+            }
+            else 
+            {
+                row2 = mysql_fetch_row(result_two);
+                continue;
+            }
             struct MJproduct mj;
             mj.picture_id_ = pic_id;
-            mj.mjproduct_id_ = row[0];
+            if(row2[1] != NULL)
+            {
+                mj.mjproduct_id_ = row2[0];
+            }
+            else
+            {
+                row2 = mysql_fetch_row(result_two);
+                continue;
+            }
             _mj_struct_map_[pic_id] = mj;
+            row2 = mysql_fetch_row(result_two);
         }
+        mysql_close(&mysql_two);
     }
 
     const char * DBManager::Query(const char * name)
@@ -75,5 +110,17 @@ namespace NodeServer
             //最后要改成log
             return "NOT FOUND IN MAP";
         }
+    }
+
+    string DBManager::GetMJID(int pic_id)
+    {
+        cout<<"find in mj struct : " << pic_id <<endl;
+        return _mj_struct_map_[pic_id].mjproduct_id_;
+    }
+
+    int DBManager::GetPicID(char* match_name)
+    {
+        cout<<"find in pic struct : " << match_name <<endl;
+        return _pic_struct_map_[match_name].picture_id_;
     }
 }
