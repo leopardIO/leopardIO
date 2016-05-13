@@ -1,4 +1,4 @@
-PROJECT(cj_test)
+PROJECT(ConcServer)
 cmake_minimum_required(VERSION 2.8)
 LINK_DIRECTORIES(/usr/lib)
 LINK_DIRECTORIES(${PROJECT_SOURCE_DIR}/lib)
