@@ -1,6 +1,5 @@
-﻿//server.h
-#ifndef SERVER_H
-#define SERVER_H
+﻿#ifndef RootSession_H
+#define RootSession_H
 
 #include <sys/socket.h>
 #include <netinet/in.h>     //socket
@@ -50,14 +49,14 @@ namespace NodeServer{
 	public:
 		RootSession(short port);
 		virtual ~RootSession();
-		void H_Read_Header(const boost::system::error_code& error);
+//		void H_Read_Header(const boost::system::error_code& error);
         void H_New_Session(const boost::system::error_code& error);
 
 		void Run();
 	private:
 		tcp::acceptor _acceptor_;
 		tcp::socket *_p_socket_temp_;
-		struct  HeadStructMessage _header_	;
+//		struct  HeadStructMessage _header_	;
 		
 	};
 }

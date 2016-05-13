@@ -1,3 +1,10 @@
+/*************************************************************************
+	> File Name: HeadStructMessage.h
+	> Author: zhonghx
+	> Mail: zhonghongxia@foxmail.com
+	> Created Time: Sun 16 Aug 2015 02:32:05 PM UTC
+ ************************************************************************/
+
 #include "IOServicePool.h"
 
 using namespace std;

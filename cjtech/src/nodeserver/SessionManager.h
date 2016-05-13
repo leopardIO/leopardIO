@@ -9,7 +9,10 @@
 #include <boost/asio.hpp>
 #include "Singleton.h"
 #include "HeadStructMessage.h"
+#include "SearchProtoMessage.pb.h"
 #include "Session.h"
+#include "NodeUtil.h"
+#include "stdint.h"
 using namespace std;
 using namespace boost::asio::ip;
 
@@ -37,7 +40,11 @@ namespace NodeServer
             template <typename T > T* 
                 CreateSession(tcp::socket *temp_socket, struct HeadStructMessage head_msg);   
             template <typename T > T* 
+                CreateSession(tcp::socket *temp_socket);   
+            template <typename T > T* 
                 CreateSession(short port);   
+            template <typename T > T* 
+                CreateSession( SearchProtoMessage proto_msg , string path , uint32_t id);   
 
             void RecycleSession( Session* );
             //private:
@@ -62,7 +69,18 @@ namespace NodeServer
     {
         T* session;
         session = new T( temp_socket , header);
-        session->Start();
+        if ( session != NULL )
+        {
+            Add( session );
+        }
+
+        return session;
+    }  
+    template<typename T>    
+    T* SessionManager:: CreateSession( tcp::socket *temp_socket)
+    {
+        T* session;
+        session = new T( temp_socket );
         if ( session != NULL )
         {
             Add( session );
@@ -79,6 +97,18 @@ namespace NodeServer
         {
             Add( session );
         }
+        return session;
+    }  
+    template<typename T>    
+    T* SessionManager:: CreateSession( SearchProtoMessage proto_msg , string path ,uint32_t id)
+    {
+        T* session;
+        session = new T( proto_msg,path , id);
+        if ( session != NULL )
+        {
+            Add( session );
+        }
+
         return session;
     }  
 }        

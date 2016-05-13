@@ -1,8 +1,8 @@
 /*************************************************************************
-  > File Name: DBManager.h
-  > Author: cooperz
-  > Mail: zbzcsn@qq.com
-  > Created Time: Sat 08 Aug 2015 09:17:25 AM UTC
+	> File Name: HeadStructMessage.h
+	> Author: zhonghx
+	> Mail: zhonghongxia@foxmail.com
+	> Created Time: Sun 29 Aug 2015 11:43:37 PM CST
  ************************************************************************/
 
 #ifndef _DBManager_H
@@ -13,21 +13,23 @@
 #include <mysql/mysql.h>
 #include <stdio.h>
 #include <map>
+#include <vector>
 
 using std::cout;
 using std::endl;
 using std::map;
+using std::multimap;
 using std::string;
+using std::vector;
 
 
-namespace NodeServer{
+namespace NodeServer
+{
 
     struct Picture
     {
-        char* pic_name_;
         int picture_id_;
-        int vedio_id_;
-        string web_url_;
+        string pic_name_;
     };
 
     struct MJproduct
@@ -47,18 +49,18 @@ namespace NodeServer{
     class DBManager
     {
         public :
-            string GetMJID(int pic_id);
-            int GetPicID(char* match_name);
+            string GetMJID(vector<int> pic_id);
+            vector<int> GetPicID(char* match_name ,size_t length);
             const char* Query(const char * name);
             void init(	const char * sql_host_name = "localhost",
                     const char * sql_user_name = "root",
-                    const char * sql_passwd = "1314159" ,
-                    const char * db_name = "mjdb");
+                    const char * sql_passwd = "root" ,
+                    const char * db_name = "newmj");
 
         private:
             map<const char * ,const char * ,ltstr> _picture_map_;		
             map<const char * ,const char * ,ltstr>::iterator _iter_;
-            map<char* , struct Picture> _pic_struct_map_;
+            multimap<string , struct Picture> _pic_struct_map_;
             map<int , struct MJproduct> _mj_struct_map_;
     };
 }

@@ -1,8 +1,8 @@
 /*************************************************************************
-  > File Name: ioserverpool.h
-  > Author: cooperz
-  > Mail: zbzcsn@qq.com
-  > Created Time: Sat 25 Jul 2015 06:24:18 PM UTC
+	> File Name: HeadStructMessage.h
+	> Author: zhonghx
+	> Mail: zhonghongxia@foxmail.com
+	> Created Time: Sun 16 Aug 2015 02:30:05 PM UTC
  ************************************************************************/
 
 #ifndef _IOSERVICEPOOL_H

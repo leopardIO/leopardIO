@@ -29,7 +29,7 @@ namespace NodeServer
 		{
 			return _sessionID_;
 		}		
-		string FormMessage(uint32_t proto_length , uint32_t  proto_type , string &proto_str,string & content_str);
+		string FormMessage(uint32_t  proto_type , string &proto_str,string & content_str);
 		
 	private :
 		uint32_t _sessionID_ ;

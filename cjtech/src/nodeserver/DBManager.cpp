@@ -1,4 +1,14 @@
+/*************************************************************************
+	> File Name: HeadStructMessage.h
+	> Author: zhonghx
+	> Mail: zhonghongxia@foxmail.com
+	> Created Time: Sun 29 Aug 2015 09:57:52 AM UTC
+ ************************************************************************/
+
 #include "DBManager.h"
+#include <glog/logging.h>
+#include <glog/raw_logging.h>  
+using std::pair;
 namespace NodeServer
 {
 
@@ -11,87 +21,51 @@ namespace NodeServer
         if(NULL == mysql_real_connect(&mysql, sql_host_name, sql_user_name, 
                     sql_passwd,db_name, 3306, NULL, 0))
         {
-            fprintf(stderr, "error: %s",mysql_error(&mysql)); 
-            cout<<"127.0.0.1 connect error!"<<endl; //#最后要改成是log格式
+            LOG(ERROR)<<mysql_error(&mysql);
+            return;
         }
-        string str = "select name, url, id, video_id, keepword1 from picture;";
+        string str = "select id , name from picture;";
         mysql_query(&mysql, str.c_str());
         result = mysql_store_result(&mysql);
         MYSQL_ROW row = NULL;
         row = mysql_fetch_row(result);
         while(NULL != row)
         {
-            if(row[0] == NULL || row[1] == NULL)
+            if(row[1] == NULL || row[0] == NULL)
             {
                 row = mysql_fetch_row(result);
                 continue;
             }
-            else
-            {
-                cout<<"key : "<<row[0]<<" value : "<<row[1]<<" get "<<endl;// for test 
-                _picture_map_[row[0]] = row[1];
-            }
             struct Picture pic_struct;
-            pic_struct.pic_name_ = row[0];
-            if(row[2] != NULL)
-            {
-                pic_struct.picture_id_ = atoi(row[2]);
-            }
-            else pic_struct.picture_id_ = -1;
-            if(row[3] != NULL)
-            {
-                pic_struct.vedio_id_ = atoi(row[3]);
-            }
-            else pic_struct.vedio_id_ = -1;
-            if(row[4] != NULL)
-            {
-                pic_struct.web_url_ = row[4] ;
-            }
-            else 
-                pic_struct.web_url_.clear();
-            _pic_struct_map_[row[0]] = pic_struct;
+            pic_struct.pic_name_ = row[1] ;
+            pic_struct.picture_id_ = atoi(row[0]);
+            _pic_struct_map_.insert(std::make_pair(row[1],pic_struct));
             row = mysql_fetch_row(result);
         }
         mysql_close(&mysql);	
-        cout<<"DB get success !"<<endl;//最后要改成log
+        LOG(INFO) << "DBManager :: DB get success !";
+
         MYSQL mysql_two;
         MYSQL_RES *result_two = NULL;
         mysql_init(&mysql_two);
         if(NULL == mysql_real_connect(&mysql_two, sql_host_name, sql_user_name, 
                     sql_passwd,db_name, 3306, NULL, 0))
         {
-            fprintf(stderr, "error: %s",mysql_error(&mysql_two)); 
-            cout<<"127.0.0.1 connect error!"<<endl; //#最后要改成是log格式
+            LOG(ERROR)<<mysql_error(&mysql);
         }
         string str_two = "select id, picture_id from mjproduct;";
-        mysql_query(&mysql_two, str.c_str());
+        mysql_query(&mysql_two, str_two.c_str());
         result_two = mysql_store_result(&mysql_two);
         MYSQL_ROW row2 = NULL;
         row2 = mysql_fetch_row(result_two);
         while(NULL != row2)
         {
-            int pic_id = 0;
-            if(row2[1] != NULL)
-            {
-                pic_id = atoi(row2[1]);
-            }
-            else 
-            {
-                row2 = mysql_fetch_row(result_two);
-                continue;
-            }
+            int pic_id = atoi(row2[1]);
             struct MJproduct mj;
             mj.picture_id_ = pic_id;
-            if(row2[1] != NULL)
-            {
-                mj.mjproduct_id_ = row2[0];
-            }
-            else
-            {
-                row2 = mysql_fetch_row(result_two);
-                continue;
-            }
+            mj.mjproduct_id_ = row2[0];
             _mj_struct_map_[pic_id] = mj;
+			LOG(INFO)<<"mj id : "<<mj.mjproduct_id_<< " pic Id : "<< pic_id<<endl;
             row2 = mysql_fetch_row(result_two);
         }
         mysql_close(&mysql_two);
@@ -99,7 +73,7 @@ namespace NodeServer
 
     const char * DBManager::Query(const char * name)
     {
-        cout<<"Search in db cache :"<<name<<endl;
+        LOG(INFO)<<"DBManager :: begin Query in cache... ";
         _iter_ = _picture_map_.find(name);
         if(_iter_ != _picture_map_.end())
         {
@@ -112,15 +86,41 @@ namespace NodeServer
         }
     }
 
-    string DBManager::GetMJID(int pic_id)
+    string DBManager::GetMJID(vector<int> pic_id)
     {
-        cout<<"find in mj struct : " << pic_id <<endl;
-        return _mj_struct_map_[pic_id].mjproduct_id_;
+        int j = 0;
+        int vec_len = pic_id.size();
+        for( ; j <vec_len; j++){
+			LOG(INFO)<<"find in mj struct : " << pic_id[j] <<endl;
+        }
+        int i;
+        int len = pic_id.size();
+
+        string rt;
+        map<int , struct MJproduct>::iterator it ;
+        for( i = 0; i < len; i ++)
+        {
+            it = _mj_struct_map_.find(pic_id[i]);
+            if(it == _mj_struct_map_.end())
+            {continue;}
+            rt = _mj_struct_map_[pic_id[i]].mjproduct_id_;
+            if(rt.length()>1)
+                return rt;
+        }
+        return string("");
     }
 
-    int DBManager::GetPicID(char* match_name)
+    vector<int> DBManager::GetPicID(char* match_name , size_t length)
     {
-        cout<<"find in pic struct : " << match_name <<endl;
-        return _pic_struct_map_[match_name].picture_id_;
+        vector<int> temp_rt;
+        LOG(INFO)<<"DBManager :: find in pic struct :"<<match_name;
+        pair<multimap<string , struct Picture>::iterator, 
+            multimap<string , struct Picture>::iterator> rt = _pic_struct_map_.equal_range(string(match_name , length));
+        multimap<string , struct Picture>::iterator ite;      
+        for(ite = rt.first; ite != rt.second; ite++)
+        {
+            temp_rt.push_back(ite->second.picture_id_);
+        }
+        return temp_rt;
     }
 }

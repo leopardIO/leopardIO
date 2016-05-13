@@ -1,8 +1,8 @@
 /*************************************************************************
-	> File Name: DBManager.h
-	> Author: cooperz
-	> Mail: zbzcsn@qq.com
-	> Created Time: Sat 08 Aug 2015 09:17:25 AM UTC
+	> File Name: HeadStructMessage.h
+	> Author: zhonghx
+	> Mail: zhonghongxia@foxmail.com
+	> Created Time: Mon 24 Aug 2015 07:07:12 PM UTC
  ************************************************************************/
 
 #ifndef _DBManager_H
@@ -33,7 +33,7 @@ class DBManager
 		const char* query(const char * name);
 		void init(	const char * sql_host_name = "localhost",
 					const char * sql_user_name = "root",
-					const char * sql_passwd = "1314159" ,
+					const char * sql_passwd = "root" ,
 					const char * db_name = "picdb");
 					
 	private:

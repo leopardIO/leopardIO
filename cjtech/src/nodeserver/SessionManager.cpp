@@ -79,7 +79,7 @@ namespace NodeServer
         if ( Find( id ) )
         {
             session = Get( id );
-            if ( !Remove( id ) )
+            if ( !Remove( id ) )//将这个session id 从map里面删除
             {
             }
             SessionList::iterator ait = 

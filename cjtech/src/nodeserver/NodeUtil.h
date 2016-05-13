@@ -2,7 +2,6 @@
 #define _NODEUTIL_H
 
 #include "../../common/includeopencv/interface.h"
-#include "DBToMap.h"
 
 #define DEBUG 1
 #define TMP_PATH "../picsource/tmp/"
